@@ -85,12 +85,12 @@ void main() {
     });
 
     group('Filter Interactions', () {
-      testWidgets('should show "Todos" option for each filter section', (
+      testWidgets('should show "All" option for each filter section', (
         WidgetTester tester,
       ) async {
         await tester.pumpWidget(createTestWidget());
 
-        expect(find.text('Todos'), findsNWidgets(5)); // 5 filter sections
+        expect(find.text('All'), findsNWidgets(5)); // 5 filter sections
       });
 
       testWidgets('should show filter options as chips', (

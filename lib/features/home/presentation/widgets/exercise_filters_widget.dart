@@ -404,9 +404,9 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
           spacing: 8,
           runSpacing: 8,
           children: [
-            // "Todos" option
-            FilterChip(
-              label: const Text('Todos'),
+                            // "All" option
+                FilterChip(
+                  label: const Text('All'),
               selected: selectedValue == null,
               onSelected: (selected) {
                 if (selected) {
