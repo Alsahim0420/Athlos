@@ -26,7 +26,7 @@ class ConnectivityBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: (isOnline ? Colors.green : Colors.orange).withOpacity(0.3),
+            color: (isOnline ? Colors.green : Colors.orange).withValues(alpha: 0.3),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -65,7 +65,7 @@ class ConnectivityBanner extends StatelessWidget {
                             ? 'Internet disponible nuevamente'
                             : 'No hay conexión a internet',
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.9),
+                          color: Colors.white.withValues(alpha: 0.9),
                           fontSize: 14,
                         ),
                       ),

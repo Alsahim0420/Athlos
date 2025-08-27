@@ -1,6 +1,6 @@
 # ⚡ ATHLOS
 
-![ATHLOS](https://via.placeholder.com/400x200/1a1a1a/ffffff?text=ATHLOS+APP)
+![ATHLOS](https://res.cloudinary.com/panmecar/image/upload/v1756281903/ATHLOS/ATHLOS_banner_billey_remake_gywqzz.png)
 
 ---
 
@@ -56,17 +56,23 @@
 
 ## 🖼️ Capturas de Pantalla
 
-### **Tema Claro**
-![Tema Claro - Home](https://via.placeholder.com/300x600/f5f5f5/333333?text=Home+Tema+Claro)
+![Tema Oscuro - Home](https://res.cloudinary.com/panmecar/image/upload/v1756281138/ATHLOS/Screenshot_20250827_024604_heqgdb.jpg)
 
-### **Tema Oscuro**
-![Tema Oscuro - Home](https://via.placeholder.com/300x600/1a1a1a/ffffff?text=Home+Tema+Oscuro)
+![Tema Oscuro - Home](https://res.cloudinary.com/panmecar/image/upload/v1756281139/ATHLOS/Screenshot_20250827_024621_zrjzb1.jpg)
 
-### **Detalle de Ejercicio**
-![Detalle Ejercicio](https://via.placeholder.com/300x600/ffffff/333333?text=Detalle+Ejercicio)
+![Tema Oscuro - Home](https://res.cloudinary.com/panmecar/image/upload/v1756281141/ATHLOS/Screenshot_20250827_024633_a4ej18.jpg)
 
-### **Perfil de Usuario**
-![Perfil Usuario](https://via.placeholder.com/300x600/f0f0f0/333333?text=Perfil+Usuario)
+![Tema Oscuro - Home](https://res.cloudinary.com/panmecar/image/upload/v1756282208/ATHLOS/Screenshot_20250827_030942_pdxom6.jpg)
+
+![Detalle Ejercicio](https://res.cloudinary.com/panmecar/image/upload/v1756281143/ATHLOS/Screenshot_20250827_024903_rk9ohh.jpg)
+
+
+![Perfil Usuario](https://res.cloudinary.com/panmecar/image/upload/v1756281144/ATHLOS/Screenshot_20250827_024908_pgyahq.jpg)
+
+![Tema Claro - Home](https://res.cloudinary.com/panmecar/image/upload/v1756281181/ATHLOS/Screenshot_20250827_024912_w4m8uv.jpg)
+
+
+
 
 ---
 
@@ -294,22 +300,6 @@ flutter build ios --release
 
 ---
 
-## 📊 Métricas y Analytics
-
-### **Firebase Analytics**
-- **Eventos personalizados** de usuario
-- **Métricas de rendimiento** de la app
-- **Análisis de uso** por funcionalidad
-- **Crashlytics** para estabilidad
-
-### **Monitoreo de Rendimiento**
-- **Tiempo de carga** de páginas
-- **Uso de memoria** y CPU
-- **Latencia** de operaciones
-- **Optimizaciones** automáticas
-
----
-
 ## 🤝 Contribución
 
 ### **Guidelines**
@@ -327,19 +317,13 @@ flutter build ios --release
 
 ---
 
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
----
-
 ## 👨‍💻 Desarrollador
 
 **Desarrollado con ⚡ y 💙 por Pablo Melo**
 
-- **GitHub**: [@tu-usuario](https://github.com/tu-usuario)
-- **LinkedIn**: [Pablo Melo](https://linkedin.com/in/pablo-melo)
-- **Portfolio**: [pablomelo.dev](https://pablomelo.dev)
+- **GitHub**: [@Alsahim0420](https://github.com/Alsahim0420)
+- **LinkedIn**: [Pablo Andrés Melo Carvajal](https://www.linkedin.com/in/pablo-andres-melo/)
+- **Portfolio**: [alsahim0420.github.io](https://alsahim0420.github.io/portfolio/)
 
 ---
 

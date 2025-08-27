@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import '../../domain/entities/exercise_filters.dart';
 import '../../data/models/exercise_filters_model.dart';
 
@@ -121,12 +120,12 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
         color: theme.colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: theme.colorScheme.outline.withOpacity(0.2),
+          color: theme.colorScheme.outline.withValues(alpha: 0.2),
           width: 1,
         ),
         boxShadow: [
           BoxShadow(
-            color: theme.colorScheme.shadow.withOpacity(0.1),
+            color: theme.colorScheme.shadow.withValues(alpha: 0.1),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -196,7 +195,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                   ),
                   Icon(
                     _isExpanded ? Icons.expand_less : Icons.expand_more,
-                    color: theme.colorScheme.onSurfaceVariant,
+                    color: theme.colorScheme.onSurface,
                   ),
                 ],
               ),
@@ -271,12 +270,11 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                                   margin: const EdgeInsets.only(bottom: 16),
                                   decoration: BoxDecoration(
                                     color: theme.colorScheme.primaryContainer
-                                        .withOpacity(0.1),
+                                        .withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                      color: theme.colorScheme.primary.withOpacity(
-                                        0.2,
-                                      ),
+                                      color: theme.colorScheme.primary
+                                          .withValues(alpha: 0.2),
                                       width: 1,
                                     ),
                                   ),
@@ -291,10 +289,12 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                                       Expanded(
                                         child: Text(
                                           'Resultados: ${widget.filteredExercises} de ${widget.totalExercises} ejercicios',
-                                          style: theme.textTheme.bodyMedium?.copyWith(
-                                            color: theme.colorScheme.primary,
-                                            fontWeight: FontWeight.w500,
-                                          ),
+                                          style: theme.textTheme.bodyMedium
+                                              ?.copyWith(
+                                                color:
+                                                    theme.colorScheme.primary,
+                                                fontWeight: FontWeight.w500,
+                                              ),
                                         ),
                                       ),
                                     ],
@@ -335,7 +335,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                           ),
                         ),
                       ),
-                      
+
                       // Scroll indicator at bottom
                       Container(
                         width: double.infinity,
@@ -345,8 +345,8 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
                             colors: [
-                              theme.colorScheme.surface.withOpacity(0.0),
-                              theme.colorScheme.surface.withOpacity(0.8),
+                              theme.colorScheme.surface.withValues(alpha: 0.0),
+                              theme.colorScheme.surface.withValues(alpha: 0.8),
                               theme.colorScheme.surface,
                             ],
                           ),
@@ -396,7 +396,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
           title,
           style: theme.textTheme.titleSmall?.copyWith(
             fontWeight: FontWeight.w600,
-            color: theme.colorScheme.onSurfaceVariant,
+            color: theme.colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 8),
@@ -413,12 +413,12 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                   _updateFilter(filterType, null);
                 }
               },
-              backgroundColor: theme.colorScheme.surfaceVariant,
+              backgroundColor: theme.colorScheme.surfaceContainerHighest,
               selectedColor: theme.colorScheme.primaryContainer,
               labelStyle: TextStyle(
                 color: selectedValue == null
                     ? theme.colorScheme.onPrimaryContainer
-                    : theme.colorScheme.onSurfaceVariant,
+                    : theme.colorScheme.onSurface,
               ),
             ),
             // Individual options
@@ -429,12 +429,12 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                 onSelected: (selected) {
                   _updateFilter(filterType, selected ? option : null);
                 },
-                backgroundColor: theme.colorScheme.surfaceVariant,
+                backgroundColor: theme.colorScheme.surfaceContainerHighest,
                 selectedColor: theme.colorScheme.primaryContainer,
                 labelStyle: TextStyle(
                   color: selectedValue == option
                       ? theme.colorScheme.onPrimaryContainer
-                      : theme.colorScheme.onSurfaceVariant,
+                      : theme.colorScheme.onSurface,
                 ),
               ),
             ),

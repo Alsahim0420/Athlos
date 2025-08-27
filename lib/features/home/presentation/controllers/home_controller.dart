@@ -32,7 +32,7 @@ class HomeController extends GetxController {
   final RxBool wasOffline = false.obs;
   final RxBool isConnectivityBannerVisible = false.obs;
   final RxBool isConnectivityBannerOnline = true.obs;
-  late StreamSubscription<ConnectivityResult> _connectivitySubscription;
+  StreamSubscription<ConnectivityResult>? _connectivitySubscription; // 🔧 HACER NULLABLE
 
   @override
   void onInit() {
@@ -50,7 +50,7 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
-    _connectivitySubscription.cancel();
+    _connectivitySubscription?.cancel(); // 🔧 USAR NULL-SAFE OPERATOR
     super.onClose();
   }
 
@@ -201,18 +201,23 @@ class HomeController extends GetxController {
     // Check initial connectivity status
     _checkConnectivityStatus();
 
-    // Listen to connectivity changes
-    _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
-      (result) {
-        debugPrint('🌐 [CONNECTIVITY] Connectivity changed to: $result');
-        _handleConnectivityChange(result);
-      },
-      onError: (error) {
-        debugPrint('❌ [CONNECTIVITY] Error listening to changes: $error');
-      },
-    );
-
-    debugPrint('✅ [CONNECTIVITY] Connectivity monitoring initialized');
+    // Listen to connectivity changes - only if not in test mode
+    try {
+      _connectivitySubscription = Connectivity().onConnectivityChanged.listen(
+        (result) {
+          debugPrint('🌐 [CONNECTIVITY] Connectivity changed to: $result');
+          _handleConnectivityChange(result);
+        },
+        onError: (error) {
+          debugPrint('❌ [CONNECTIVITY] Error listening to changes: $error');
+        },
+      );
+      debugPrint('✅ [CONNECTIVITY] Connectivity monitoring initialized');
+    } catch (e) {
+      debugPrint('⚠️ [CONNECTIVITY] Connectivity not available (test mode?): $e');
+      // Create a dummy subscription for tests
+      _connectivitySubscription = Stream.empty().listen((_) {}) as StreamSubscription<ConnectivityResult>;
+    }
   }
 
   /// Check current connectivity status
