@@ -1,17 +1,33 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hive/hive.dart';
 
+part 'user_model.g.dart';
+
+@HiveType(typeId: 2)
 class UserModel {
+  @HiveField(0)
   final String uid;
+  @HiveField(1)
   final String email;
+  @HiveField(2)
   final String firstName;
+  @HiveField(3)
   final String lastName;
+  @HiveField(4)
   final String phone;
+  @HiveField(5)
   final int age;
+  @HiveField(6)
   final double weight; // in kilograms
+  @HiveField(7)
   final double height; // in centimeters
+  @HiveField(8)
   final String gender;
+  @HiveField(9)
   final DateTime birthDate;
+  @HiveField(10)
   final DateTime createdAt;
+  @HiveField(11)
   final DateTime updatedAt;
 
   UserModel({
