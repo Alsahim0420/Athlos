@@ -11,6 +11,14 @@ class RegisterPage extends GetView<RegisterController> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => Get.offAllNamed('/login'),
+          icon: Icon(
+            Icons.arrow_back_ios,
+            color: theme.appBarTheme.foregroundColor,
+          ),
+          tooltip: 'Volver al login',
+        ),
         title: const Text('Crear Cuenta'),
         backgroundColor: theme.appBarTheme.backgroundColor,
         foregroundColor: theme.appBarTheme.foregroundColor,

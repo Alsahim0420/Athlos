@@ -12,41 +12,41 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   try {
-    print('🔥 [FIREBASE] Initializing Firebase...');
+    debugPrint('🔥 [FIREBASE] Initializing Firebase...');
     // Initialize Firebase with generated options
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    print('🔥 [FIREBASE] Firebase initialized successfully!');
-    print(
+    debugPrint('🔥 [FIREBASE] Firebase initialized successfully!');
+    debugPrint(
       '🔥 [FIREBASE] Current platform: ${DefaultFirebaseOptions.currentPlatform.runtimeType}',
     );
   } catch (e) {
-    print('❌ [FIREBASE] Failed to initialize Firebase: $e');
+    debugPrint('❌ [FIREBASE] Failed to initialize Firebase: $e');
     rethrow;
   }
 
   try {
-    print('📦 [HIVE] Initializing Hive...');
+    debugPrint('📦 [HIVE] Initializing Hive...');
     // Initialize Hive
     await SessionService.init();
-    print('📦 [HIVE] Hive initialized successfully!');
+    debugPrint('📦 [HIVE] Hive initialized successfully!');
   } catch (e) {
-    print('❌ [HIVE] Failed to initialize Hive: $e');
+    debugPrint('❌ [HIVE] Failed to initialize Hive: $e');
     rethrow;
   }
 
   try {
-    print('🌐 [HTTP] Initializing HTTP Service...');
+    debugPrint('🌐 [HTTP] Initializing HTTP Service...');
     // Initialize HTTP Service
     Get.put(HttpService());
-    print('🌐 [HTTP] HTTP Service initialized successfully!');
+    debugPrint('🌐 [HTTP] HTTP Service initialized successfully!');
   } catch (e) {
-    print('❌ [HTTP] Failed to initialize HTTP Service: $e');
+    debugPrint('❌ [HTTP] Failed to initialize HTTP Service: $e');
     rethrow;
   }
 
-  print('🚀 [APP] All services initialized! Starting app...');
+  debugPrint('🚀 [APP] All services initialized! Starting app...');
   runApp(const MyApp());
 }
 

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 
 class FirestoreService {
@@ -8,18 +9,18 @@ class FirestoreService {
   // Create new user document
   Future<void> createUser(UserModel user) async {
     try {
-      print('🔥 [FIRESTORE] Creating user document for UID: ${user.uid}');
-      print('🔥 [FIRESTORE] User data: ${user.toMap()}');
+      debugPrint('🔥 [FIRESTORE] Creating user document for UID: ${user.uid}');
+      debugPrint('🔥 [FIRESTORE] User data: ${user.toMap()}');
 
       await _firestore
           .collection(_usersCollection)
           .doc(user.uid)
           .set(user.toMap());
 
-      print('🔥 [FIRESTORE] User document created successfully!');
+      debugPrint('🔥 [FIRESTORE] User document created successfully!');
     } catch (e) {
-      print('❌ [FIRESTORE] Error creating user profile: $e');
-      print('❌ [FIRESTORE] Error type: ${e.runtimeType}');
+      debugPrint('❌ [FIRESTORE] Error creating user profile: $e');
+      debugPrint('❌ [FIRESTORE] Error type: ${e.runtimeType}');
       throw 'Error creating user profile: $e';
     }
   }

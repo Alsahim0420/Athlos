@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../data/services/auth_service.dart';
 import '../data/services/session_service.dart';
 
@@ -90,16 +91,55 @@ class LoginController extends GetxController {
 
     try {
       // Call Firebase Auth
-      final userCredential = await _authService.signInWithEmailAndPassword(
-        email,
-        password,
-      );
+      UserCredential? userCredential;
+      try {
+        userCredential = await _authService.signInWithEmailAndPassword(
+          email,
+          password,
+        );
+        debugPrint('🔍 [LOGIN] Firebase Auth login successful!');
+      } catch (authError) {
+        // Handle the special case where user was signed in but Firebase returned an error
+        if (authError.toString().contains(
+          'USER_SIGNED_IN_BUT_FIREBASE_ERROR',
+        )) {
+          debugPrint(
+            '🔄 [LOGIN] Firebase Auth error but user was signed in, continuing...',
+          );
+          final currentUser = _authService.currentUser;
+          if (currentUser != null) {
+            debugPrint('🔄 [LOGIN] Found current user: ${currentUser.uid}');
+            // Use the current user directly
+            userCredential = null; // We'll handle this case differently
+            debugPrint('🔄 [LOGIN] Using current user for login details');
+          } else {
+            throw 'No se pudo obtener el usuario autenticado';
+          }
+        } else {
+          rethrow;
+        }
+      }
+
+      // Get user info either from UserCredential or currentUser
+      String userId;
+      String userEmail;
+
+      if (userCredential != null) {
+        userId = userCredential.user!.uid;
+        userEmail = userCredential.user!.email!;
+      } else {
+        // Use currentUser if UserCredential is null (PigeonUserDetails error case)
+        final currentUser = _authService.currentUser;
+        if (currentUser != null) {
+          userId = currentUser.uid;
+          userEmail = currentUser.email!;
+        } else {
+          throw 'Error inesperado: No se pudo obtener la información del usuario para el login.';
+        }
+      }
 
       // Save session to Hive
-      await SessionService().saveLoginSession(
-        userId: userCredential.user!.uid,
-        email: userCredential.user!.email!,
-      );
+      await SessionService().saveLoginSession(userId: userId, email: userEmail);
 
       // Hide loading
       isLoading.value = false;

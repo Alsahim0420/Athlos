@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'splash_controller.dart';
@@ -28,9 +27,6 @@ class _SplashContentState extends State<_SplashContent>
 
   late Animation<double> _logoScale;
   late Animation<double> _logoOpacity;
-  late Animation<Offset> _textSlide;
-  late Animation<double> _textOpacity;
-  late Animation<double> _loadingWidth;
 
   @override
   void initState() {
@@ -68,19 +64,8 @@ class _SplashContentState extends State<_SplashContent>
     ).animate(CurvedAnimation(parent: _logoController, curve: Curves.easeIn));
 
     // Text animations
-    _textSlide = Tween<Offset>(begin: const Offset(0, 0.5), end: Offset.zero)
-        .animate(
-          CurvedAnimation(parent: _textController, curve: Curves.easeOutCubic),
-        );
-    _textOpacity = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _textController, curve: Curves.easeIn));
 
     // Loading indicator animation - 3 seconds duration
-    _loadingWidth = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _loadingController, curve: Curves.easeInOut),
-    );
   }
 
   void _startAnimations() async {

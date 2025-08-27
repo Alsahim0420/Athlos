@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import '../data/services/auth_service.dart';
 import '../data/services/firestore_service.dart';
 import '../data/services/session_service.dart';
@@ -306,35 +305,35 @@ class RegisterController extends GetxController {
     isLoading.value = true;
 
     try {
-      print('🔍 [DEBUG] Starting registration process...');
-      print('🔍 [DEBUG] Email: $email');
-      print('🔍 [DEBUG] Password length: ${password.length}');
+      debugPrint('🔍 [DEBUG] Starting registration process...');
+      debugPrint('🔍 [DEBUG] Email: $email');
+      debugPrint('🔍 [DEBUG] Password length: ${password.length}');
 
       // Create user in Firebase Auth
-      print('🔍 [DEBUG] Creating user in Firebase Auth...');
+      debugPrint('🔍 [DEBUG] Creating user in Firebase Auth...');
       String userUid;
       String userEmail;
 
       try {
         final userCredential = await _authService
             .createUserWithEmailAndPassword(email, password);
-        print('🔍 [DEBUG] Firebase Auth user created successfully!');
+        debugPrint('🔍 [DEBUG] Firebase Auth user created successfully!');
         userUid = userCredential.user!.uid;
         userEmail = userCredential.user!.email!;
-        print('🔍 [DEBUG] User UID: $userUid');
+        debugPrint('🔍 [DEBUG] User UID: $userUid');
       } catch (authError) {
         // Handle the special case where user was created but Firebase returned an error
         if (authError.toString().contains('USER_CREATED_BUT_FIREBASE_ERROR')) {
-          print(
+          debugPrint(
             '🔄 [REGISTER] Firebase Auth error but user was created, continuing...',
           );
           // Get the current user manually
           final currentUser = _authService.currentUser;
           if (currentUser != null) {
-            print('🔄 [REGISTER] Found current user: ${currentUser.uid}');
+            debugPrint('🔄 [REGISTER] Found current user: ${currentUser.uid}');
             userUid = currentUser.uid;
             userEmail = currentUser.email!;
-            print('🔄 [REGISTER] Using existing user for registration');
+            debugPrint('🔄 [REGISTER] Using existing user for registration');
           } else {
             throw 'No se pudo obtener el usuario creado';
           }
@@ -344,7 +343,7 @@ class RegisterController extends GetxController {
       }
 
       // Create user model
-      print('🔍 [DEBUG] Creating UserModel...');
+      debugPrint('🔍 [DEBUG] Creating UserModel...');
       final user = UserModel(
         uid: userUid,
         email: userEmail,
@@ -361,35 +360,35 @@ class RegisterController extends GetxController {
         createdAt: DateTime.now(),
         updatedAt: DateTime.now(),
       );
-      print('🔍 [DEBUG] UserModel created successfully!');
+      debugPrint('🔍 [DEBUG] UserModel created successfully!');
 
       // Save user to Firestore
-      print('🔍 [DEBUG] Saving user to Firestore...');
+      debugPrint('🔍 [DEBUG] Saving user to Firestore...');
       await _firestoreService.createUser(user);
-      print('🔍 [DEBUG] User saved to Firestore successfully!');
+      debugPrint('🔍 [DEBUG] User saved to Firestore successfully!');
 
       // Save session to Hive
-      print('🔍 [DEBUG] Saving session to Hive...');
+      debugPrint('🔍 [DEBUG] Saving session to Hive...');
       await SessionService().saveLoginSession(
         userId: user.uid,
         email: user.email,
       );
-      print('🔍 [DEBUG] Session saved to Hive successfully!');
+      debugPrint('🔍 [DEBUG] Session saved to Hive successfully!');
 
       // Hide loading
       isLoading.value = false;
 
       // Navigate to home
-      print('🔍 [DEBUG] Registration completed! Navigating to home...');
+      debugPrint('🔍 [DEBUG] Registration completed! Navigating to home...');
       Get.offAllNamed('/home');
     } catch (error) {
       // Hide loading
       isLoading.value = false;
 
-      print('❌ [ERROR] Registration failed with error: $error');
-      print('❌ [ERROR] Error type: ${error.runtimeType}');
+      debugPrint('❌ [ERROR] Registration failed with error: $error');
+      debugPrint('❌ [ERROR] Error type: ${error.runtimeType}');
       if (error is Exception) {
-        print('❌ [ERROR] Exception details: ${error.toString()}');
+        debugPrint('❌ [ERROR] Exception details: ${error.toString()}');
       }
 
       // Show error snackbar
