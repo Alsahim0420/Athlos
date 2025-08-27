@@ -1,4 +1,4 @@
-package com.athlos.app
+package com.pabloandres.athlos.app
 
 import io.flutter.embedding.android.FlutterActivity
 

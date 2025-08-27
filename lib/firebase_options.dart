@@ -54,7 +54,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '696840604322',
     projectId: 'athlos-84089',
     storageBucket: 'athlos-84089.firebasestorage.app',
-    iosBundleId: 'com.athlos.app',
+    iosBundleId: 'com.pabloandres.athlos.app',
   );
 
   static const FirebaseOptions web = FirebaseOptions(
@@ -73,7 +73,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '696840604322',
     projectId: 'athlos-84089',
     storageBucket: 'athlos-84089.firebasestorage.app',
-    iosBundleId: 'com.athlos.app',
+    iosBundleId: 'com.pabloandres.athlos.app',
   );
 
   static const FirebaseOptions windows = FirebaseOptions(
