@@ -135,7 +135,7 @@ jobs:
           draft: false
           prerelease: ${{ startsWith(github.ref, 'refs/heads/release/') }}
           body: |
-             **ATHLOS App Release**
+            **ATHLOS App Release**
             
             **Version:** ${{ steps.extract_version.outputs.version }}
             **Branch:** ${{ github.ref_name }}
@@ -143,12 +143,12 @@ jobs:
             **Author:** ${{ github.actor }}
             **Date:** ${{ github.event.head_commit.timestamp }}
             
-            ##  **Builds Disponibles:**
+            ## **Builds Disponibles:**
             - **Android APK:** Descarga directa
             - **Android App Bundle:** Para Google Play Store
             - **iOS Build:** Para TestFlight
             
-            ##  **Cambios en esta versión:**
+            ## **Cambios en esta versión:**
             - Mejoras de rendimiento
             - Correcciones de bugs
             - Nuevas funcionalidades
