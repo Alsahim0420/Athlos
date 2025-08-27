@@ -42,7 +42,7 @@ class LoginPage extends GetView<LoginController> {
                           const SizedBox(height: 8),
 
                           Text(
-                            '¡Bienvenido de vuelta!',
+                            'Welcome back!',
                             style: theme.textTheme.bodyLarge?.copyWith(
                               color: theme.textTheme.bodyLarge?.color
                                   ?.withValues(alpha: 0.7),
@@ -57,7 +57,7 @@ class LoginPage extends GetView<LoginController> {
                             controller: controller.emailController,
                             keyboardType: TextInputType.emailAddress,
                             decoration: InputDecoration(
-                              hintText: 'Correo Electrónico',
+                              hintText: 'Email',
                               prefixIcon: Icon(
                                 Icons.email_outlined,
                                 color: theme.textTheme.bodyLarge?.color
@@ -82,7 +82,7 @@ class LoginPage extends GetView<LoginController> {
                               controller: controller.passwordController,
                               obscureText: !controller.isPasswordVisible.value,
                               decoration: InputDecoration(
-                                hintText: 'Contraseña',
+                                hintText: 'Password',
                                 prefixIcon: Icon(
                                   Icons.lock_outlined,
                                   color: theme.textTheme.bodyLarge?.color
@@ -132,7 +132,7 @@ class LoginPage extends GetView<LoginController> {
                                             ),
                                       ),
                                     )
-                                  : const Text('Iniciar Sesión'),
+                                  : const Text('Sign In'),
                             ),
                           ),
 
@@ -140,13 +140,13 @@ class LoginPage extends GetView<LoginController> {
 
                           TextButton(
                             onPressed: () => Get.offAllNamed('/register'),
-                            child: const Text('¿No tienes cuenta? Regístrate'),
+                            child: const Text('Don\'t have an account? Sign up'),
                           ),
 
                           const Spacer(),
 
                           Text(
-                            '© 2025 ATHLOS. Todos los derechos reservados.',
+                            '© 2025 ATHLOS. All rights reserved.',
                             style: theme.textTheme.bodyMedium?.copyWith(
                               color: theme.textTheme.bodyMedium?.color
                                   ?.withValues(alpha: 0.5),

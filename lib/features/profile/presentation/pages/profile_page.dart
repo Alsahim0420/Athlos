@@ -14,7 +14,7 @@ class ProfilePage extends GetView<ProfileController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Mi Perfil'),
+        title: const Text('My Profile'),
         backgroundColor: theme.appBarTheme.backgroundColor,
         foregroundColor: theme.appBarTheme.foregroundColor,
         actions: [
@@ -24,7 +24,7 @@ class ProfilePage extends GetView<ProfileController> {
               onPressed: () => _showThemeDialog(context),
               icon: Icon(Get.find<ThemeService>().getCurrentThemeIcon()),
               tooltip:
-                  'Cambiar tema (${Get.find<ThemeService>().getCurrentThemeName()})',
+                  'Change theme (${Get.find<ThemeService>().getCurrentThemeName()})',
             ),
           ),
         ],
@@ -48,7 +48,7 @@ class ProfilePage extends GetView<ProfileController> {
                 ),
                 const SizedBox(height: 16),
                 Text(
-                  'Error al cargar perfil',
+                  'Error loading profile',
                   style: theme.textTheme.headlineSmall,
                   textAlign: TextAlign.center,
                 ),
@@ -61,7 +61,7 @@ class ProfilePage extends GetView<ProfileController> {
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => controller.reloadProfile(),
-                  child: const Text('Reintentar'),
+                  child: const Text('Retry'),
                 ),
               ],
             ),
@@ -87,20 +87,15 @@ class ProfilePage extends GetView<ProfileController> {
           const SizedBox(height: 32),
 
           // Personal Information
-          _buildSectionTitle('Información Personal', theme),
+          _buildSectionTitle('Personal Information', theme),
           const SizedBox(height: 16),
 
           _buildInfoCard([
-            _buildInfoRow(
-              'Nombre completo',
-              profile.fullName,
-              Icons.person,
-              theme,
-            ),
+            _buildInfoRow('Full Name', profile.fullName, Icons.person, theme),
             _buildInfoRow('Email', profile.email, Icons.email, theme),
-            _buildInfoRow('Teléfono', profile.phone, Icons.phone, theme),
+            _buildInfoRow('Phone', profile.phone, Icons.phone, theme),
             _buildInfoRow(
-              'Género',
+              'Gender',
               profile.gender,
               Icons.person_outline,
               theme,
@@ -110,31 +105,31 @@ class ProfilePage extends GetView<ProfileController> {
           const SizedBox(height: 24),
 
           // Physical Information
-          _buildSectionTitle('Información Física', theme),
+          _buildSectionTitle('Physical Information', theme),
           const SizedBox(height: 16),
 
           _buildInfoCard([
-            _buildInfoRow('Edad', '${profile.age} años', Icons.cake, theme),
+            _buildInfoRow('Age', '${profile.age} years', Icons.cake, theme),
             _buildInfoRow(
-              'Peso',
+              'Weight',
               '${profile.weight} kg',
               Icons.monitor_weight,
               theme,
             ),
             _buildInfoRow(
-              'Estatura',
+              'Height',
               '${profile.height} cm',
               Icons.height,
               theme,
             ),
             _buildInfoRow(
-              'IMC',
+              'BMI',
               profile.bmi.toStringAsFixed(1),
               Icons.fitness_center,
               theme,
             ),
             _buildInfoRow(
-              'Categoría IMC',
+              'BMI Category',
               profile.bmiCategory,
               Icons.analytics,
               theme,
@@ -149,7 +144,7 @@ class ProfilePage extends GetView<ProfileController> {
             child: ElevatedButton.icon(
               onPressed: controller.logout,
               icon: const Icon(Icons.logout),
-              label: const Text('Cerrar Sesión'),
+              label: const Text('Sign Out'),
               style: ElevatedButton.styleFrom(
                 padding: const EdgeInsets.symmetric(vertical: 16),
                 backgroundColor: theme.colorScheme.error,

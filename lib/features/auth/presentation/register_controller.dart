@@ -291,8 +291,8 @@ class RegisterController extends GetxController {
         !isHeightValid) {
       // Show error snackbar for validation failures
       Get.snackbar(
-        'Error de Validación',
-        'Por favor corrige los errores de arriba',
+        'Validation Error',
+        'Please fix the errors above',
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -390,7 +390,7 @@ class RegisterController extends GetxController {
 
       // Show error snackbar
       Get.snackbar(
-        'Registro Fallido',
+        'Registration Failed',
         error.toString(),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,

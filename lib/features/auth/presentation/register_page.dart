@@ -17,9 +17,9 @@ class RegisterPage extends GetView<RegisterController> {
             Icons.arrow_back_ios,
             color: theme.appBarTheme.foregroundColor,
           ),
-          tooltip: 'Volver al login',
+          tooltip: 'Back to login',
         ),
-        title: const Text('Crear Cuenta'),
+        title: const Text('Create Account'),
         backgroundColor: theme.appBarTheme.backgroundColor,
         foregroundColor: theme.appBarTheme.foregroundColor,
       ),
@@ -45,7 +45,7 @@ class RegisterPage extends GetView<RegisterController> {
               // Subtitle
               Center(
                 child: Text(
-                  '¡Únete a la comunidad!',
+                  'Join the community!',
                   style: theme.textTheme.bodyLarge?.copyWith(
                     color: theme.textTheme.bodyLarge?.color?.withValues(
                       alpha: 0.7,
@@ -58,7 +58,7 @@ class RegisterPage extends GetView<RegisterController> {
 
               // Personal Information Section
               Text(
-                'Información Personal',
+                'Personal Information',
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -101,7 +101,7 @@ class RegisterPage extends GetView<RegisterController> {
                         controller: controller.lastNameController,
                         textCapitalization: TextCapitalization.words,
                         decoration: InputDecoration(
-                          hintText: 'Apellido',
+                          hintText: 'Last Name',
                           prefixIcon: Icon(
                             Icons.person_outline,
                             color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -131,7 +131,7 @@ class RegisterPage extends GetView<RegisterController> {
                   controller: controller.emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    hintText: 'Correo Electrónico',
+                    hintText: 'Email',
                     prefixIcon: Icon(
                       Icons.email_outlined,
                       color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -158,7 +158,7 @@ class RegisterPage extends GetView<RegisterController> {
                   controller: controller.phoneController,
                   keyboardType: TextInputType.phone,
                   decoration: InputDecoration(
-                    hintText: 'Número de Teléfono',
+                    hintText: 'Phone Number',
                     prefixIcon: Icon(
                       Icons.phone_outlined,
                       color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -185,7 +185,7 @@ class RegisterPage extends GetView<RegisterController> {
                   controller: controller.passwordController,
                   obscureText: !controller.isPasswordVisible.value,
                   decoration: InputDecoration(
-                    hintText: 'Contraseña',
+                    hintText: 'Password',
                     prefixIcon: Icon(
                       Icons.lock_outlined,
                       color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -233,29 +233,29 @@ class RegisterPage extends GetView<RegisterController> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Requisitos de la contraseña:',
+                        'Password Requirements:',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
                       const SizedBox(height: 8),
                       _buildRequirement(
-                        'Al menos 6 caracteres',
+                        'At least 6 characters',
                         controller.hasMinLength.value,
                         theme,
                       ),
                       _buildRequirement(
-                        'Una letra mayúscula',
+                        'One uppercase letter',
                         controller.hasUppercase.value,
                         theme,
                       ),
                       _buildRequirement(
-                        'Una letra minúscula',
+                        'One lowercase letter',
                         controller.hasLowercase.value,
                         theme,
                       ),
                       _buildRequirement(
-                        'Un número',
+                        'One number',
                         controller.hasNumber.value,
                         theme,
                       ),
@@ -272,7 +272,7 @@ class RegisterPage extends GetView<RegisterController> {
                   controller: controller.confirmPasswordController,
                   obscureText: !controller.isConfirmPasswordVisible.value,
                   decoration: InputDecoration(
-                    hintText: 'Confirmar Contraseña',
+                    hintText: 'Confirm Password',
                     prefixIcon: Icon(
                       Icons.lock_outline,
                       color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -341,8 +341,8 @@ class RegisterPage extends GetView<RegisterController> {
                             const SizedBox(width: 8),
                             Text(
                               controller.passwordsMatch.value
-                                  ? 'Las contraseñas coinciden'
-                                  : 'Las contraseñas no coinciden',
+                                  ? 'Passwords match'
+                                  : 'Passwords do not match',
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: controller.passwordsMatch.value
                                     ? Colors.green
@@ -360,7 +360,7 @@ class RegisterPage extends GetView<RegisterController> {
 
               // Physical Information Section
               Text(
-                'Información Física',
+                'Physical Information',
                 style: theme.textTheme.headlineMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
@@ -378,7 +378,7 @@ class RegisterPage extends GetView<RegisterController> {
                         controller: controller.ageController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: 'Edad',
+                          hintText: 'Age',
                           prefixIcon: Icon(
                             Icons.cake_outlined,
                             color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -410,7 +410,7 @@ class RegisterPage extends GetView<RegisterController> {
                             ? null
                             : controller.selectedGender.value,
                         decoration: InputDecoration(
-                          hintText: 'Género',
+                          hintText: 'Gender',
                           prefixIcon: Icon(
                             Icons.person_outline,
                             color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -432,10 +432,10 @@ class RegisterPage extends GetView<RegisterController> {
                                 value: gender,
                                 child: Text(
                                   gender == 'Male'
-                                      ? 'Masculino'
+                                      ? 'Male'
                                       : gender == 'Female'
-                                      ? 'Femenino'
-                                      : 'Otro',
+                                      ? 'Female'
+                                      : 'Other',
                                   style: const TextStyle(fontSize: 14),
                                 ),
                               ),
@@ -469,7 +469,7 @@ class RegisterPage extends GetView<RegisterController> {
                         controller: controller.weightController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: 'Peso (kg)',
+                          hintText: 'Weight (kg)',
                           prefixIcon: Icon(
                             Icons.monitor_weight_outlined,
                             color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -501,7 +501,7 @@ class RegisterPage extends GetView<RegisterController> {
                         controller: controller.heightController,
                         keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          hintText: 'Estatura (cm)',
+                          hintText: 'Height (cm)',
                           prefixIcon: Icon(
                             Icons.height_outlined,
                             color: theme.textTheme.bodyLarge?.color?.withValues(
@@ -549,7 +549,7 @@ class RegisterPage extends GetView<RegisterController> {
                               ),
                             ),
                           )
-                        : const Text('Crear Cuenta'),
+                        : const Text('Create Account'),
                   ),
                 ),
               ),
@@ -561,7 +561,7 @@ class RegisterPage extends GetView<RegisterController> {
                 width: double.infinity,
                 child: TextButton(
                   onPressed: () => Get.offAllNamed('/login'),
-                  child: const Text('¿Ya tienes una cuenta? Inicia sesión'),
+                  child: const Text('Already have an account? Sign in'),
                 ),
               ),
 
@@ -570,7 +570,7 @@ class RegisterPage extends GetView<RegisterController> {
               // Footer text
               Center(
                 child: Text(
-                  '© 2025 ATHLOS. Todos los derechos reservados.',
+                  '© 2025 ATHLOS. All rights reserved.',
                   style: theme.textTheme.bodyMedium?.copyWith(
                     color: theme.textTheme.bodyMedium?.color?.withValues(
                       alpha: 0.5,

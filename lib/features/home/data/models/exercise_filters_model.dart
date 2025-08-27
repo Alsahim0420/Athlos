@@ -40,13 +40,13 @@ class ExerciseFiltersModel extends ExerciseFilters {
   @override
   String toString() {
     final filters = <String>[];
-    if (category != null) filters.add('Categoría: $category');
-    if (targetMuscle != null) filters.add('Músculo: $targetMuscle');
-    if (equipment != null) filters.add('Equipamiento: $equipment');
-    if (difficulty != null) filters.add('Dificultad: $difficulty');
-    if (bodyPart != null) filters.add('Parte del cuerpo: $bodyPart');
+    if (category != null) filters.add('Category: $category');
+    if (targetMuscle != null) filters.add('Target Muscle: $targetMuscle');
+    if (equipment != null) filters.add('Equipment: $equipment');
+    if (difficulty != null) filters.add('Difficulty: $difficulty');
+    if (bodyPart != null) filters.add('Body Part: $bodyPart');
 
-    return filters.isEmpty ? 'Sin filtros' : filters.join(', ');
+    return filters.isEmpty ? 'No filters' : filters.join(', ');
   }
 
   // Factory constructor for empty filters

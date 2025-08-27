@@ -152,7 +152,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Filtros',
+                          'Filters',
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
@@ -223,7 +223,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
 
                               // Filter options
                               _buildFilterSection(
-                                'Categoría',
+                                'Category',
                                 'category',
                                 widget.availableCategories,
                                 _filters.category,
@@ -231,7 +231,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                               const SizedBox(height: 16),
 
                               _buildFilterSection(
-                                'Músculo Objetivo',
+                                'Target Muscle',
                                 'targetMuscle',
                                 widget.availableTargetMuscles,
                                 _filters.targetMuscle,
@@ -239,7 +239,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                               const SizedBox(height: 16),
 
                               _buildFilterSection(
-                                'Equipamiento',
+                                'Equipment',
                                 'equipment',
                                 widget.availableEquipment,
                                 _filters.equipment,
@@ -247,7 +247,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                               const SizedBox(height: 16),
 
                               _buildFilterSection(
-                                'Dificultad',
+                                'Difficulty',
                                 'difficulty',
                                 widget.availableDifficulties,
                                 _filters.difficulty,
@@ -255,7 +255,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                               const SizedBox(height: 16),
 
                               _buildFilterSection(
-                                'Parte del Cuerpo',
+                                'Body Part',
                                 'bodyPart',
                                 widget.availableBodyParts,
                                 _filters.bodyPart,
@@ -288,7 +288,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                                       const SizedBox(width: 8),
                                       Expanded(
                                         child: Text(
-                                          'Resultados: ${widget.filteredExercises} de ${widget.totalExercises} ejercicios',
+                                          'Results: ${widget.filteredExercises} of ${widget.totalExercises} exercises',
                                           style: theme.textTheme.bodyMedium
                                               ?.copyWith(
                                                 color:
@@ -308,7 +308,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                                     child: OutlinedButton.icon(
                                       onPressed: _clearFilters,
                                       icon: const Icon(Icons.clear),
-                                      label: const Text('Limpiar'),
+                                      label: const Text('Clear'),
                                       style: OutlinedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 12,
@@ -321,7 +321,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                                     child: ElevatedButton.icon(
                                       onPressed: _applyFilters,
                                       icon: const Icon(Icons.check),
-                                      label: const Text('Aplicar'),
+                                      label: const Text('Apply'),
                                       style: ElevatedButton.styleFrom(
                                         padding: const EdgeInsets.symmetric(
                                           vertical: 12,
@@ -360,7 +360,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Scroll para ver más filtros',
+                              'Scroll to see more filters',
                               style: theme.textTheme.bodySmall?.copyWith(
                                 color: theme.colorScheme.primary,
                                 fontWeight: FontWeight.w500,
@@ -404,9 +404,9 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
           spacing: 8,
           runSpacing: 8,
           children: [
-            // "Todos" option
-            FilterChip(
-              label: const Text('Todos'),
+                            // "All" option
+                FilterChip(
+                  label: const Text('All'),
               selected: selectedValue == null,
               onSelected: (selected) {
                 if (selected) {

@@ -48,7 +48,7 @@ void main() {
       ) async {
         await tester.pumpWidget(createTestWidget());
 
-        expect(find.text('Filtros'), findsOneWidget);
+        expect(find.text('Filters'), findsOneWidget);
         expect(find.byIcon(Icons.filter_list), findsOneWidget);
         expect(find.text('50/100'), findsOneWidget);
       });
@@ -67,30 +67,30 @@ void main() {
       ) async {
         await tester.pumpWidget(createTestWidget());
 
-        expect(find.text('Categoría'), findsOneWidget);
-        expect(find.text('Músculo Objetivo'), findsOneWidget);
-        expect(find.text('Equipamiento'), findsOneWidget);
-        expect(find.text('Dificultad'), findsOneWidget);
-        expect(find.text('Parte del Cuerpo'), findsOneWidget);
+        expect(find.text('Category'), findsOneWidget);
+        expect(find.text('Target Muscle'), findsOneWidget);
+        expect(find.text('Equipment'), findsOneWidget);
+        expect(find.text('Difficulty'), findsOneWidget);
+        expect(find.text('Body Part'), findsOneWidget);
       });
 
       testWidgets('should show action buttons', (WidgetTester tester) async {
         await tester.pumpWidget(createTestWidget());
 
-        expect(find.text('Limpiar'), findsOneWidget);
-        expect(find.text('Aplicar'), findsOneWidget);
+        expect(find.text('Clear'), findsOneWidget);
+        expect(find.text('Apply'), findsOneWidget);
         expect(find.byIcon(Icons.clear), findsOneWidget);
         expect(find.byIcon(Icons.check), findsOneWidget);
       });
     });
 
     group('Filter Interactions', () {
-      testWidgets('should show "Todos" option for each filter section', (
+      testWidgets('should show "All" option for each filter section', (
         WidgetTester tester,
       ) async {
         await tester.pumpWidget(createTestWidget());
 
-        expect(find.text('Todos'), findsNWidgets(5)); // 5 filter sections
+        expect(find.text('All'), findsNWidgets(5)); // 5 filter sections
       });
 
       testWidgets('should show filter options as chips', (
@@ -154,11 +154,11 @@ void main() {
         await tester.pumpWidget(testWidget);
 
         // Tap clear button
-        await tester.tap(find.text('Limpiar'));
+        await tester.tap(find.text('Clear'));
         await tester.pump();
 
         // Just verify the widget is still there
-        expect(find.text('Limpiar'), findsOneWidget);
+        expect(find.text('Clear'), findsOneWidget);
       });
     });
 
@@ -172,7 +172,7 @@ void main() {
         expect(find.byIcon(Icons.expand_more), findsOneWidget);
 
         // Tap to expand
-        await tester.tap(find.text('Filtros'));
+        await tester.tap(find.text('Filters'));
         await tester.pump();
 
         // Should show expanded state
@@ -185,11 +185,11 @@ void main() {
         await tester.pumpWidget(createTestWidget());
 
         // Tap to expand
-        await tester.tap(find.text('Filtros'));
+        await tester.tap(find.text('Filters'));
         await tester.pump();
 
         // Should show scroll indicator
-        expect(find.text('Scroll para ver más filtros'), findsOneWidget);
+        expect(find.text('Scroll to see more filters'), findsOneWidget);
         expect(find.byIcon(Icons.keyboard_arrow_down), findsOneWidget);
       });
     });
@@ -223,7 +223,7 @@ void main() {
 
         // Should show filter summary
         expect(
-          find.text('Categoría: strength, Dificultad: beginner'),
+          find.text('Category: strength, Difficulty: beginner'),
           findsOneWidget,
         );
         expect(find.text('25/100'), findsOneWidget);
@@ -253,11 +253,11 @@ void main() {
         await tester.pumpWidget(testWidget);
 
         // Tap to expand
-        await tester.tap(find.text('Filtros'));
+        await tester.tap(find.text('Filters'));
         await tester.pump();
 
         // Should show results summary
-        expect(find.text('Resultados: 30 de 100 ejercicios'), findsOneWidget);
+        expect(find.text('Results: 30 of 100 exercises'), findsOneWidget);
       });
     });
 
@@ -268,18 +268,18 @@ void main() {
         await tester.pumpWidget(createTestWidget());
 
         // Check for semantic labels - these are text-based, not semanticsLabel
-        expect(find.text('Filtros'), findsOneWidget);
-        expect(find.text('Limpiar'), findsOneWidget);
-        expect(find.text('Aplicar'), findsOneWidget);
+        expect(find.text('Filters'), findsOneWidget);
+        expect(find.text('Clear'), findsOneWidget);
+        expect(find.text('Apply'), findsOneWidget);
       });
 
       testWidgets('should support screen readers', (WidgetTester tester) async {
         await tester.pumpWidget(createTestWidget());
 
         // Check for proper text scaling
-        expect(find.text('Filtros'), findsOneWidget);
-        expect(find.text('Categoría'), findsOneWidget);
-        expect(find.text('Músculo Objetivo'), findsOneWidget);
+        expect(find.text('Filters'), findsOneWidget);
+        expect(find.text('Category'), findsOneWidget);
+        expect(find.text('Target Muscle'), findsOneWidget);
       });
     });
   });
