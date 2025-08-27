@@ -4,7 +4,10 @@ import '../../features/splash/presentation/splash_page.dart';
 import '../../features/auth/bindings/auth_binding.dart';
 import '../../features/auth/presentation/login_page.dart';
 import '../../features/auth/presentation/register_page.dart';
+import '../../features/home/bindings/home_binding.dart';
 import '../../features/home/presentation/home_page.dart';
+import '../../features/profile/bindings/profile_binding.dart';
+import '../../features/profile/presentation/pages/profile_page.dart';
 import 'app_routes.dart';
 
 class AppPages {
@@ -27,7 +30,12 @@ class AppPages {
     GetPage(
       name: AppRoutes.home,
       page: () => const HomePage(),
-      binding: AuthBinding(),
+      binding: HomeBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.profile,
+      page: () => const ProfilePage(),
+      binding: ProfileBinding(),
     ),
   ];
 }

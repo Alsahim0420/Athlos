@@ -28,16 +28,29 @@ class FirestoreService {
   // Get user by UID
   Future<UserModel?> getUser(String uid) async {
     try {
+      debugPrint('🔥 [FIRESTORE] Fetching user document for UID: $uid');
+
       DocumentSnapshot doc = await _firestore
           .collection(_usersCollection)
           .doc(uid)
           .get();
 
       if (doc.exists) {
-        return UserModel.fromFirestore(doc);
+        debugPrint(
+          '✅ [FIRESTORE] User document found, converting to UserModel',
+        );
+        final userModel = UserModel.fromFirestore(doc);
+        debugPrint(
+          '✅ [FIRESTORE] UserModel created successfully: ${userModel.fullName}',
+        );
+        return userModel;
+      } else {
+        debugPrint('⚠️ [FIRESTORE] User document does not exist for UID: $uid');
+        return null;
       }
-      return null;
     } catch (e) {
+      debugPrint('❌ [FIRESTORE] Error fetching user: $e');
+      debugPrint('❌ [FIRESTORE] Error type: ${e.runtimeType}');
       throw 'Error fetching user: $e';
     }
   }

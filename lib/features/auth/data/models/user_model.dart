@@ -67,8 +67,19 @@ class UserModel {
     );
   }
 
-  // Create from Map (for form data)
+  // Create from Map (for form data and Hive storage)
   factory UserModel.fromMap(Map<String, dynamic> map) {
+    // Helper function to convert Timestamp or DateTime to DateTime
+    DateTime _parseDate(dynamic dateValue) {
+      if (dateValue is Timestamp) {
+        return dateValue.toDate();
+      } else if (dateValue is DateTime) {
+        return dateValue;
+      } else {
+        return DateTime.now();
+      }
+    }
+
     return UserModel(
       uid: map['uid'] ?? '',
       email: map['email'] ?? '',
@@ -79,9 +90,9 @@ class UserModel {
       weight: (map['weight'] ?? 0).toDouble(),
       height: (map['height'] ?? 0).toDouble(),
       gender: map['gender'] ?? '',
-      birthDate: map['birthDate'] ?? DateTime.now(),
-      createdAt: map['createdAt'] ?? DateTime.now(),
-      updatedAt: map['updatedAt'] ?? DateTime.now(),
+      birthDate: _parseDate(map['birthDate']),
+      createdAt: _parseDate(map['createdAt']),
+      updatedAt: _parseDate(map['updatedAt']),
     );
   }
 

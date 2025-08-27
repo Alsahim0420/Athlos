@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../data/services/auth_service.dart';
 import '../data/services/session_service.dart';
+import '../data/services/firestore_service.dart';
 
 class LoginController extends GetxController {
   final AuthService _authService = AuthService();
@@ -99,6 +100,8 @@ class LoginController extends GetxController {
         );
         debugPrint('🔍 [LOGIN] Firebase Auth login successful!');
       } catch (authError) {
+        debugPrint('🔄 [LOGIN] Auth error caught: $authError');
+
         // Handle the special case where user was signed in but Firebase returned an error
         if (authError.toString().contains(
           'USER_SIGNED_IN_BUT_FIREBASE_ERROR',
@@ -114,6 +117,21 @@ class LoginController extends GetxController {
             debugPrint('🔄 [LOGIN] Using current user for login details');
           } else {
             throw 'No se pudo obtener el usuario autenticado';
+          }
+        } else if (authError.toString().contains('PigeonUserDetails')) {
+          // Handle PigeonUserDetails error specifically
+          debugPrint(
+            '🔄 [LOGIN] PigeonUserDetails error detected, checking current user...',
+          );
+          final currentUser = _authService.currentUser;
+          if (currentUser != null) {
+            debugPrint(
+              '🔄 [LOGIN] Found current user despite PigeonUserDetails error: ${currentUser.uid}',
+            );
+            userCredential = null;
+            debugPrint('🔄 [LOGIN] Using current user for login details');
+          } else {
+            throw 'Error de PigeonUserDetails: No se pudo obtener el usuario autenticado';
           }
         } else {
           rethrow;
@@ -138,8 +156,33 @@ class LoginController extends GetxController {
         }
       }
 
-      // Save session to Hive
-      await SessionService().saveLoginSession(userId: userId, email: userEmail);
+      // Get complete user data from Firestore
+      debugPrint(
+        '🔍 [LOGIN] Fetching user data from Firestore for UID: $userId',
+      );
+      final firestoreService = FirestoreService();
+      final userModel = await firestoreService.getUser(userId);
+
+      if (userModel != null) {
+        debugPrint(
+          '✅ [LOGIN] User data found in Firestore: ${userModel.fullName}',
+        );
+        // Save complete user session
+        await SessionService().saveUserSession(user: userModel);
+        debugPrint('🔐 [LOGIN] Complete user session saved to Hive');
+      } else {
+        debugPrint(
+          '⚠️ [LOGIN] No user data found in Firestore, using basic session',
+        );
+        // Fallback to basic session if Firestore data not available
+        await SessionService().saveLoginSession(
+          userId: userId,
+          email: userEmail,
+        );
+        debugPrint(
+          '🔐 [LOGIN] Basic session saved to Hive (no Firestore data)',
+        );
+      }
 
       // Hide loading
       isLoading.value = false;
