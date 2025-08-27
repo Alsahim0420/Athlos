@@ -5,17 +5,48 @@ import 'firebase_options.dart';
 import 'core/routes/app_pages.dart';
 import 'core/routes/app_routes.dart';
 import 'core/config/app_theme.dart';
+import 'core/services/http_service.dart';
 import 'features/auth/data/services/session_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Firebase with generated options
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  try {
+    print('🔥 [FIREBASE] Initializing Firebase...');
+    // Initialize Firebase with generated options
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+    print('🔥 [FIREBASE] Firebase initialized successfully!');
+    print(
+      '🔥 [FIREBASE] Current platform: ${DefaultFirebaseOptions.currentPlatform.runtimeType}',
+    );
+  } catch (e) {
+    print('❌ [FIREBASE] Failed to initialize Firebase: $e');
+    rethrow;
+  }
 
-  // Initialize Hive
-  await SessionService.init();
+  try {
+    print('📦 [HIVE] Initializing Hive...');
+    // Initialize Hive
+    await SessionService.init();
+    print('📦 [HIVE] Hive initialized successfully!');
+  } catch (e) {
+    print('❌ [HIVE] Failed to initialize Hive: $e');
+    rethrow;
+  }
 
+  try {
+    print('🌐 [HTTP] Initializing HTTP Service...');
+    // Initialize HTTP Service
+    Get.put(HttpService());
+    print('🌐 [HTTP] HTTP Service initialized successfully!');
+  } catch (e) {
+    print('❌ [HTTP] Failed to initialize HTTP Service: $e');
+    rethrow;
+  }
+
+  print('🚀 [APP] All services initialized! Starting app...');
   runApp(const MyApp());
 }
 

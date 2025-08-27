@@ -12,6 +12,7 @@ class LoginController extends GetxController {
   final emailError = RxString('');
   final passwordError = RxString('');
   final isLoading = false.obs;
+  final isPasswordVisible = false.obs;
 
   @override
   void onClose() {
@@ -51,6 +52,11 @@ class LoginController extends GetxController {
 
     passwordError.value = '';
     return true;
+  }
+
+  // Toggle password visibility
+  void togglePasswordVisibility() {
+    isPasswordVisible.value = !isPasswordVisible.value;
   }
 
   // Login method

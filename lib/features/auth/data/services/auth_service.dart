@@ -26,14 +26,48 @@ class AuthService {
     String password,
   ) async {
     try {
-      return await _auth.createUserWithEmailAndPassword(
+      print('🔥 [AUTH] Creating user with email: $email');
+
+      // Add a small delay to avoid race conditions
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      final result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
+
+      // Add another small delay after creation
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      print('🔥 [AUTH] User created successfully: ${result.user?.uid}');
+      return result;
     } on FirebaseAuthException catch (e) {
+      print('❌ [AUTH] FirebaseAuthException: ${e.code} - ${e.message}');
       throw _handleAuthException(e);
     } catch (e) {
-      throw 'An unexpected error occurred. Please try again.';
+      print('❌ [AUTH] Unexpected error: $e');
+      print('❌ [AUTH] Error type: ${e.runtimeType}');
+
+      // Check if this is the PigeonUserDetails error
+      if (e.toString().contains('PigeonUserDetails')) {
+        print(
+          '🔄 [AUTH] Detected PigeonUserDetails error - this is a known Firebase issue',
+        );
+        print(
+          '🔄 [AUTH] The user was actually created successfully, but Firebase returned an error',
+        );
+        print('🔄 [AUTH] We can continue with the registration process');
+
+        // Get the current user to continue
+        final currentUser = _auth.currentUser;
+        if (currentUser != null) {
+          print('🔄 [AUTH] Found current user: ${currentUser.uid}');
+          // Return a mock UserCredential to continue the process
+          throw 'USER_CREATED_BUT_FIREBASE_ERROR';
+        }
+      }
+
+      throw 'Error inesperado: $e';
     }
   }
 

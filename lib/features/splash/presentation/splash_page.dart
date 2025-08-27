@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'splash_controller.dart';
@@ -51,9 +52,9 @@ class _SplashContentState extends State<_SplashContent>
       vsync: this,
     );
 
-    // Loading indicator controller
+    // Loading indicator controller - 3 seconds duration
     _loadingController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(seconds: 3),
       vsync: this,
     );
 
@@ -76,7 +77,7 @@ class _SplashContentState extends State<_SplashContent>
       end: 1.0,
     ).animate(CurvedAnimation(parent: _textController, curve: Curves.easeIn));
 
-    // Loading indicator animation
+    // Loading indicator animation - 3 seconds duration
     _loadingWidth = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _loadingController, curve: Curves.easeInOut),
     );
@@ -89,7 +90,7 @@ class _SplashContentState extends State<_SplashContent>
     // Start text animation
     await _textController.forward();
 
-    // Start loading indicator animation
+    // Start loading indicator animation - this will take exactly 3 seconds
     _loadingController.forward();
   }
 
@@ -165,74 +166,51 @@ class _SplashContentState extends State<_SplashContent>
                 },
               ),
 
-              const SizedBox(height: 40),
+              const SizedBox(height: 50),
 
-              // App name text with animations
-              AnimatedBuilder(
-                animation: _textController,
-                builder: (context, child) {
-                  return SlideTransition(
-                    position: _textSlide,
-                    child: Opacity(
-                      opacity: _textOpacity.value,
-                      child: Text(
-                        'ATHLOS',
-                        style: TextStyle(
-                          color: const Color(0xFFFFD600),
-                          fontSize: 42,
-                          fontWeight: FontWeight.w900,
-                          letterSpacing: 4.0,
-                          shadows: [
-                            Shadow(
+              // Visual expanding bar from center (independent animation)
+              Container(
+                width: 200,
+                height: 6,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFFFD600).withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(3),
+                  border: Border.all(
+                    color: const Color(0xFFFFD600).withValues(alpha: 0.3),
+                    width: 1,
+                  ),
+                ),
+                child: Center(
+                  child: TweenAnimationBuilder<double>(
+                    duration: const Duration(seconds: 3),
+                    curve: Curves.easeInOut,
+                    tween: Tween(begin: 0.0, end: 200.0),
+                    builder: (context, width, child) {
+                      return Container(
+                        width: width,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              const Color(0xFFFFD600),
+                              const Color(0xFFFFD600).withValues(alpha: 0.8),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(3),
+                          boxShadow: [
+                            BoxShadow(
                               color: const Color(
                                 0xFFFFD600,
-                              ).withValues(alpha: 0.6),
-                              blurRadius: 15,
-                              offset: const Offset(0, 3),
-                            ),
-                            Shadow(
-                              color: const Color(
-                                0xFFFFD600,
-                              ).withValues(alpha: 0.3),
-                              blurRadius: 25,
-                              offset: const Offset(0, 6),
+                              ).withValues(alpha: 0.5),
+                              blurRadius: 4,
+                              spreadRadius: 1,
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-
-              const SizedBox(height: 30),
-
-              // Animated loading indicator
-              AnimatedBuilder(
-                animation: _loadingController,
-                builder: (context, child) {
-                  return Container(
-                    width: 60 * _loadingWidth.value,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          const Color(0xFFFFD600).withValues(alpha: 0.3),
-                          const Color(0xFFFFD600),
-                          const Color(0xFFFFD600).withValues(alpha: 0.3),
-                        ],
-                      ),
-                      borderRadius: BorderRadius.circular(2),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFFFFD600).withValues(alpha: 0.5),
-                          blurRadius: 8,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                  );
-                },
+                      );
+                    },
+                  ),
+                ),
               ),
             ],
           ),

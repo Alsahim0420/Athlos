@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -65,4 +56,34 @@ class DefaultFirebaseOptions {
     storageBucket: 'athlos-84089.firebasestorage.app',
     iosBundleId: 'com.athlos.app',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyDZJky27pnVEdFfkQTmwSn_yDGsvMXyPlg',
+    appId: '1:696840604322:web:65d686d7a0d91619d565fb',
+    messagingSenderId: '696840604322',
+    projectId: 'athlos-84089',
+    authDomain: 'athlos-84089.firebaseapp.com',
+    storageBucket: 'athlos-84089.firebasestorage.app',
+    measurementId: 'G-7PX3PQR24J',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyB8AQBrcvV9q-UG66p2DyUNmRmY423Jbuk',
+    appId: '1:696840604322:ios:78b3c355c3ac5af9d565fb',
+    messagingSenderId: '696840604322',
+    projectId: 'athlos-84089',
+    storageBucket: 'athlos-84089.firebasestorage.app',
+    iosBundleId: 'com.athlos.app',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyDZJky27pnVEdFfkQTmwSn_yDGsvMXyPlg',
+    appId: '1:696840604322:web:5ae46f91271090e4d565fb',
+    messagingSenderId: '696840604322',
+    projectId: 'athlos-84089',
+    authDomain: 'athlos-84089.firebaseapp.com',
+    storageBucket: 'athlos-84089.firebasestorage.app',
+    measurementId: 'G-02RG2BQBK8',
+  );
+
 }

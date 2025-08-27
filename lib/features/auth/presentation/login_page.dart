@@ -31,14 +31,12 @@ class LoginPage extends GetView<LoginController> {
                           const SizedBox(height: 60),
 
                           // App title
-                          Text(
-                            'ATHLOS',
-                            style: theme.textTheme.headlineLarge?.copyWith(
-                              color: const Color(0xFFFFD600),
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 3.0,
+                          SizedBox(
+                            height: 200,
+                            child: Image.asset(
+                              'assets/images/icon_text.png',
+                              fit: BoxFit.contain,
                             ),
-                            textAlign: TextAlign.center,
                           ),
 
                           const SizedBox(height: 8),
@@ -55,27 +53,25 @@ class LoginPage extends GetView<LoginController> {
                           const SizedBox(height: 60),
 
                           // Email field
-                          Obx(
-                            () => TextField(
-                              controller: controller.emailController,
-                              keyboardType: TextInputType.emailAddress,
-                              decoration: InputDecoration(
-                                hintText: 'Correo Electrónico',
-                                prefixIcon: Icon(
-                                  Icons.email_outlined,
-                                  color: theme.textTheme.bodyLarge?.color
-                                      ?.withValues(alpha: 0.5),
-                                ),
-                                errorText: controller.emailError.value.isEmpty
-                                    ? null
-                                    : controller.emailError.value,
+                          TextField(
+                            controller: controller.emailController,
+                            keyboardType: TextInputType.emailAddress,
+                            decoration: InputDecoration(
+                              hintText: 'Correo Electrónico',
+                              prefixIcon: Icon(
+                                Icons.email_outlined,
+                                color: theme.textTheme.bodyLarge?.color
+                                    ?.withValues(alpha: 0.5),
                               ),
-                              onChanged: (_) {
-                                if (controller.emailError.value.isNotEmpty) {
-                                  controller.emailError.value = '';
-                                }
-                              },
+                              errorText: controller.emailError.value.isEmpty
+                                  ? null
+                                  : controller.emailError.value,
                             ),
+                            onChanged: (_) {
+                              if (controller.emailError.value.isNotEmpty) {
+                                controller.emailError.value = '';
+                              }
+                            },
                           ),
 
                           const SizedBox(height: 20),
@@ -84,13 +80,24 @@ class LoginPage extends GetView<LoginController> {
                           Obx(
                             () => TextField(
                               controller: controller.passwordController,
-                              obscureText: true,
+                              obscureText: !controller.isPasswordVisible.value,
                               decoration: InputDecoration(
                                 hintText: 'Contraseña',
                                 prefixIcon: Icon(
                                   Icons.lock_outlined,
                                   color: theme.textTheme.bodyLarge?.color
                                       ?.withValues(alpha: 0.5),
+                                ),
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    controller.isPasswordVisible.value
+                                        ? Icons.visibility_off
+                                        : Icons.visibility,
+                                    color: theme.textTheme.bodyLarge?.color
+                                        ?.withValues(alpha: 0.5),
+                                  ),
+                                  onPressed:
+                                      controller.togglePasswordVisibility,
                                 ),
                                 errorText:
                                     controller.passwordError.value.isEmpty
@@ -132,7 +139,7 @@ class LoginPage extends GetView<LoginController> {
                           const SizedBox(height: 16),
 
                           TextButton(
-                            onPressed: () => Get.toNamed('/register'),
+                            onPressed: () => Get.offAllNamed('/register'),
                             child: const Text('¿No tienes cuenta? Regístrate'),
                           ),
 

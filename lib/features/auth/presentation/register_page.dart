@@ -23,12 +23,11 @@ class RegisterPage extends GetView<RegisterController> {
             children: [
               // App title
               Center(
-                child: Text(
-                  'ATHLOS',
-                  style: theme.textTheme.headlineLarge?.copyWith(
-                    color: const Color(0xFFFFD600),
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 3.0,
+                child: SizedBox(
+                  width: 200,
+                  child: Image.asset(
+                    'assets/images/icon_text.png',
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -553,7 +552,7 @@ class RegisterPage extends GetView<RegisterController> {
               SizedBox(
                 width: double.infinity,
                 child: TextButton(
-                  onPressed: () => Get.back(),
+                  onPressed: () => Get.offAllNamed('/login'),
                   child: const Text('¿Ya tienes una cuenta? Inicia sesión'),
                 ),
               ),
