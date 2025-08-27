@@ -1,39 +1,258 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+import 'package:hive/hive.dart';
+import 'controllers/home_controller.dart';
+import 'widgets/exercises_skeleton.dart';
+import 'widgets/connectivity_banner.dart';
+import 'widgets/exercise_filters_widget.dart';
+import 'pages/exercise_detail_page.dart';
+import '../domain/entities/exercise_entity.dart';
+import '../domain/repositories/exercise_repository.dart';
+import '../data/repositories/exercise_repository_impl.dart';
+import '../data/datasources/exercise_remote_datasource.dart';
+import '../data/models/exercise_model.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<HomeController> {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Ensure all dependencies are available
+    if (!Get.isRegistered<ExerciseRepository>()) {
+      debugPrint('🏠 [HOMEPAGE] ExerciseRepository not found, creating it...');
+
+      // Use the box that should already be open from main.dart
+      final box = Hive.box<ExerciseModel>('exercises');
+      debugPrint('🏠 [HOMEPAGE] Using existing Hive box: ${box.isOpen}');
+
+      Get.put(
+        ExerciseRepositoryImpl(
+          remoteDataSource: ExerciseRemoteDataSourceImpl(client: http.Client()),
+          box: box,
+        ),
+      );
+    }
+
+    if (!Get.isRegistered<HomeController>()) {
+      debugPrint('🏠 [HOMEPAGE] HomeController not found, creating it...');
+      Get.put(
+        HomeController(exerciseRepository: Get.find<ExerciseRepository>()),
+      );
+    }
+
     final theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ATHLOS'),
+        title: _buildAthlosTitle(theme),
         backgroundColor: theme.appBarTheme.backgroundColor,
         foregroundColor: theme.appBarTheme.foregroundColor,
+        actions: [
+          // Profile button
+          IconButton(
+            onPressed: () => Get.toNamed('/profile'),
+            icon: const Icon(Icons.person),
+            tooltip: 'Mi Perfil',
+          ),
+        ],
       ),
-      body: Center(
+      body: RefreshIndicator(
+        onRefresh: controller.refreshData,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.home, size: 100, color: const Color(0xFFFFD600)),
-            const SizedBox(height: 20),
-            Text('Welcome to ATHLOS!', style: theme.textTheme.headlineMedium),
-            const SizedBox(height: 10),
-            Text(
-              'You have successfully logged in.',
-              style: theme.textTheme.bodyLarge,
+            // Connectivity banner
+            Obx(
+              () => ConnectivityBanner(
+                isOnline: controller.isConnectivityBannerOnline.value,
+                isVisible: controller.isConnectivityBannerVisible.value,
+                onDismiss: controller.dismissConnectivityBanner,
+              ),
             ),
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () => Get.offAllNamed('/login'),
-              child: const Text('Logout'),
+
+            // Exercise filters
+            Obx(
+              () => ExerciseFiltersWidget(
+                currentFilters: controller.currentFilters.value,
+                onFiltersChanged: controller.applyFilters,
+                availableCategories: controller.availableCategories,
+                availableTargetMuscles: controller.availableTargetMuscles,
+                availableEquipment: controller.availableEquipment,
+                availableDifficulties: controller.availableDifficulties,
+                availableBodyParts: controller.availableBodyParts,
+                totalExercises: controller.totalExercisesCount,
+                filteredExercises: controller.filteredExercisesCount,
+              ),
+            ),
+            // Exercise list
+            Expanded(
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return const ExercisesSkeleton(itemCount: 8);
+                }
+
+                if (controller.hasError && !controller.hasExercises) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.error_outline,
+                          size: 64,
+                          color: theme.colorScheme.error,
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          'Error al cargar ejercicios',
+                          style: theme.textTheme.headlineSmall,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          controller.error.value,
+                          style: theme.textTheme.bodyMedium,
+                          textAlign: TextAlign.center,
+                        ),
+                        const SizedBox(height: 16),
+                        ElevatedButton(
+                          onPressed: controller.refreshData,
+                          child: const Text('Reintentar'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                if (!controller.hasExercises) {
+                  return const Center(
+                    child: Text('No hay ejercicios disponibles'),
+                  );
+                }
+
+                // Show filtered results info
+                if (controller.currentFilters.value.hasActiveFilters) {
+                  return Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.filter_list,
+                              color: theme.colorScheme.onPrimaryContainer,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Mostrando ${controller.filteredExercisesCount} de ${controller.totalExercisesCount} ejercicios',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onPrimaryContainer,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: controller.filteredExercises.length,
+                          itemBuilder: (context, index) {
+                            final exercise =
+                                controller.filteredExercises[index];
+                            return _buildExerciseTile(exercise, theme);
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
+                return ListView.builder(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: controller.filteredExercises.length,
+                  itemBuilder: (context, index) {
+                    final exercise = controller.filteredExercises[index];
+                    return _buildExerciseTile(exercise, theme);
+                  },
+                );
+              }),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildExerciseTile(ExerciseEntity exercise, ThemeData theme) {
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(16),
+        leading: Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            Icons.fitness_center,
+            color: theme.colorScheme.onSurface,
+            size: 28,
+          ),
+        ),
+        title: Text(
+          exercise.name,
+          style: theme.textTheme.titleMedium?.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        subtitle: Text(
+          '${exercise.bodyPart} • ${exercise.target} • ${exercise.equipment}',
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: theme.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
+          ),
+        ),
+        onTap: () {
+          Get.to(() => ExerciseDetailPage(exercise: exercise));
+        },
+      ),
+    );
+  }
+
+  Widget _buildAthlosTitle(ThemeData theme) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Lightning bolt icon (yellow)
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            color: Colors.amber.shade600,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: const Icon(Icons.flash_on, color: Colors.white, size: 16),
+        ),
+        const SizedBox(width: 8),
+        // ATHLOS text
+        Text(
+          'ATHLOS',
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+          ),
+        ),
+      ],
     );
   }
 }

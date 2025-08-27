@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696840604322",
+    "project_id": "athlos-84089",
+    "storage_bucket": "athlos-84089.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696840604322:android:ec26e5dd4433a427d565fb",
+        "android_client_info": {
+          "package_name": "com.athlos.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT8d0kN_hxnxICmOMeusxY2bZgMsnH5kY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
