@@ -4,10 +4,10 @@ import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-import 'package:ATHLOS/features/home/domain/repositories/exercise_repository.dart';
-import 'package:ATHLOS/features/home/data/models/exercise_filters_model.dart';
-import 'package:ATHLOS/features/home/data/models/exercise_model.dart';
-import 'package:ATHLOS/features/home/presentation/controllers/home_controller.dart';
+import 'package:athlos/features/home/domain/repositories/exercise_repository.dart';
+import 'package:athlos/features/home/data/models/exercise_filters_model.dart';
+import 'package:athlos/features/home/data/models/exercise_model.dart';
+import 'package:athlos/features/home/presentation/controllers/home_controller.dart';
 
 import 'home_controller_test.mocks.dart';
 

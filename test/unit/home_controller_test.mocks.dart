@@ -5,9 +5,9 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
-import 'package:ATHLOS/features/home/domain/entities/exercise_entity.dart'
+import 'package:athlos/features/home/domain/entities/exercise_entity.dart'
     as _i4;
-import 'package:ATHLOS/features/home/domain/repositories/exercise_repository.dart'
+import 'package:athlos/features/home/domain/repositories/exercise_repository.dart'
     as _i2;
 import 'package:connectivity_plus/connectivity_plus.dart' as _i5;
 import 'package:connectivity_plus_platform_interface/connectivity_plus_platform_interface.dart'

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ATHLOS/features/home/domain/entities/exercise_filters.dart';
-import 'package:ATHLOS/features/home/data/models/exercise_filters_model.dart';
-import 'package:ATHLOS/features/home/presentation/widgets/exercise_filters_widget.dart';
+import 'package:athlos/features/home/domain/entities/exercise_filters.dart';
+import 'package:athlos/features/home/data/models/exercise_filters_model.dart';
+import 'package:athlos/features/home/presentation/widgets/exercise_filters_widget.dart';
 
 void main() {
   group('ExerciseFiltersWidget Tests', () {
