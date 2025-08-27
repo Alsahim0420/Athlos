@@ -179,7 +179,7 @@ genhtml coverage/lcov.info -o coverage/html
 ### **Estructura Recomendada**
 ```dart
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ATHLOS/test/test_config.dart';
+import 'package:athlos/test/test_config.dart';
 
 void main() {
   group('Nombre del Widget/Service Tests', () {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ATHLOS/features/home/presentation/widgets/exercises_skeleton.dart';
+import 'package:athlos/features/home/presentation/widgets/exercises_skeleton.dart';
 
 void main() {
   group('Skeleton Widgets Tests', () {

@@ -12,6 +12,7 @@ import 'features/auth/data/services/session_service.dart';
 import 'core/controllers/theme_controller.dart';
 import 'package:hive/hive.dart';
 import 'features/home/data/models/exercise_model.dart';
+import 'features/auth/data/models/user_model.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -51,6 +52,14 @@ void main() async {
       debugPrint('✅ [HIVE] ExerciseModel adapter registered successfully');
     } else {
       debugPrint('✅ [HIVE] ExerciseModel adapter already registered');
+    }
+
+    debugPrint('🔧 [HIVE] Registering UserModel adapter...');
+    if (!Hive.isAdapterRegistered(2)) {
+      Hive.registerAdapter(UserModelAdapter());
+      debugPrint('✅ [HIVE] UserModel adapter registered successfully');
+    } else {
+      debugPrint('✅ [HIVE] UserModel adapter already registered');
     }
 
     // Initialize Hive

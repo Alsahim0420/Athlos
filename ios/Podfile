@@ -22,59 +22,23 @@ end
 
 require File.expand_path(File.join('packages', 'flutter_tools', 'bin', 'podhelper'), flutter_root)
 
-# Claves para Flutter + Firebase en Xcode 15/16
 flutter_ios_podfile_setup
-use_frameworks! :linkage => :static
-use_modular_headers!
+use_modular_headers!  # ✅ ESTA LÍNEA ES CLAVE
 
 target 'Runner' do
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-
-  target 'RunnerTests' do
-    inherit! :search_paths
-  end
+  flutter_install_all_ios_pods(File.dirname(File.realpath(__FILE__)))
 end
 
 post_install do |installer|
   require 'xcodeproj'
 
   installer.pods_project.targets.each do |target|
-    # Ajustes estándar de Flutter
     flutter_additional_ios_build_settings(target)
 
-    # iOS 13+, sin bitcode, etc.
     target.build_configurations.each do |config|
       config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
       config.build_settings['ENABLE_BITCODE'] = 'NO'
       config.build_settings['CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES'] = 'YES'
     end
-
-    # 👉 Solo procesar targets nativos (evita PBXAggregateTarget)
-    next unless target.is_a?(Xcodeproj::Project::Object::PBXNativeTarget)
-
-    # Limpiar cualquier flag que empiece por -G (Xcode 16 + x86_64 peta con esto)
-    # 1) A nivel de archivos en la fase de compilación
-    if target.respond_to?(:source_build_phase) && target.source_build_phase
-      target.source_build_phase.files.each do |file|
-        if file.settings && file.settings['COMPILER_FLAGS']
-          flags = file.settings['COMPILER_FLAGS'].split
-          flags.reject! { |f| f.start_with?('-G') }
-          file.settings['COMPILER_FLAGS'] = flags.join(' ')
-        end
-      end
-    end
-
-    # 2) A nivel de configuración del target (C/C++)
-    %w[OTHER_CFLAGS OTHER_CPLUSPLUSFLAGS GCC_PREPROCESSOR_DEFINITIONS].each do |key|
-      target.build_configurations.each do |config|
-        val = config.build_settings[key]
-        if val.is_a?(Array)
-          config.build_settings[key] = val.reject { |f| f.to_s.start_with?('-G') }
-        elsif val.is_a?(String)
-          config.build_settings[key] = val.split.reject { |f| f.start_with?('-G') }
-        end
-      end
-    end
   end
 end
-

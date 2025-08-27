@@ -367,13 +367,10 @@ class RegisterController extends GetxController {
       await _firestoreService.createUser(user);
       debugPrint('🔍 [DEBUG] User saved to Firestore successfully!');
 
-      // Save session to Hive
-      debugPrint('🔍 [DEBUG] Saving session to Hive...');
-      await SessionService().saveLoginSession(
-        userId: user.uid,
-        email: user.email,
-      );
-      debugPrint('🔍 [DEBUG] Session saved to Hive successfully!');
+      // Save complete user session to Hive
+      debugPrint('🔍 [DEBUG] Saving complete user session to Hive...');
+      await SessionService().saveUserSession(user: user);
+      debugPrint('🔍 [DEBUG] Complete user session saved to Hive successfully!');
 
       // Hide loading
       isLoading.value = false;

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_test/hive_test.dart';
 
-import 'package:ATHLOS/core/services/theme_service.dart';
+import 'package:athlos/core/services/theme_service.dart';
 
 void main() {
   group('ThemeService Tests', () {
