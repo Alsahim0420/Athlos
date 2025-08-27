@@ -152,7 +152,7 @@ class _ExerciseFiltersWidgetState extends State<ExerciseFiltersWidget>
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Filtros',
+                          'Filters',
                           style: theme.textTheme.titleMedium?.copyWith(
                             fontWeight: FontWeight.bold,
                           ),
