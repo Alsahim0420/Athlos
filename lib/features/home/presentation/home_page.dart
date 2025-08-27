@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../auth/presentation/login_controller.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends GetView<LoginController> {
   const HomePage({super.key});
 
   @override
@@ -28,7 +29,7 @@ class HomePage extends StatelessWidget {
             ),
             const SizedBox(height: 30),
             ElevatedButton(
-              onPressed: () => Get.offAllNamed('/login'),
+              onPressed: controller.logout,
               child: const Text('Logout'),
             ),
           ],

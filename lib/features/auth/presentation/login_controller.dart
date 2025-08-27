@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../data/services/auth_service.dart';
+import '../data/services/session_service.dart';
 
 class LoginController extends GetxController {
+  final AuthService _authService = AuthService();
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
@@ -19,13 +23,13 @@ class LoginController extends GetxController {
   // Email validation
   bool _validateEmail(String email) {
     if (email.isEmpty) {
-      emailError.value = 'Email is required';
+      emailError.value = 'El correo electrónico es requerido';
       return false;
     }
 
     final emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!emailRegex.hasMatch(email)) {
-      emailError.value = 'Please enter a valid email';
+      emailError.value = 'Por favor ingresa un correo válido';
       return false;
     }
 
@@ -36,12 +40,12 @@ class LoginController extends GetxController {
   // Password validation
   bool _validatePassword(String password) {
     if (password.isEmpty) {
-      passwordError.value = 'Password is required';
+      passwordError.value = 'La contraseña es requerida';
       return false;
     }
 
     if (password.length < 6) {
-      passwordError.value = 'Password must be at least 6 characters';
+      passwordError.value = 'La contraseña debe tener al menos 6 caracteres';
       return false;
     }
 
@@ -50,7 +54,7 @@ class LoginController extends GetxController {
   }
 
   // Login method
-  void login() {
+  Future<void> login() async {
     final email = emailController.text.trim();
     final password = passwordController.text.trim();
 
@@ -58,36 +62,143 @@ class LoginController extends GetxController {
     emailError.value = '';
     passwordError.value = '';
 
-    // Validate inputs
+    // Validate inputs first
     final isEmailValid = _validateEmail(email);
     final isPasswordValid = _validatePassword(password);
 
     if (!isEmailValid || !isPasswordValid) {
+      // Show error snackbar for validation failures
+      Get.snackbar(
+        'Validation Error',
+        'Please fix the errors above',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
       return;
     }
 
     // Show loading
     isLoading.value = true;
 
-    // Simulate API call
-    Future.delayed(const Duration(seconds: 1), () {
+    try {
+      // Call Firebase Auth
+      final userCredential = await _authService.signInWithEmailAndPassword(
+        email,
+        password,
+      );
+
+      // Save session to Hive
+      await SessionService().saveLoginSession(
+        userId: userCredential.user!.uid,
+        email: userCredential.user!.email!,
+      );
+
+      // Hide loading
       isLoading.value = false;
 
-      // For now, just navigate to home
-      // In real app, you would make API call here
+      // Navigate to home
       Get.offAllNamed('/home');
-    });
+    } catch (error) {
+      // Hide loading
+      isLoading.value = false;
+
+      // Show error snackbar
+      Get.snackbar(
+        'Inicio de Sesión Fallido',
+        error.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 4),
+      );
+    }
   }
 
   // Register method
-  void register() {
-    // TODO: Implement registration navigation
-    Get.snackbar(
-      'Coming Soon',
-      'Registration feature will be available soon!',
-      snackPosition: SnackPosition.BOTTOM,
-      backgroundColor: Colors.blue,
-      colorText: Colors.white,
-    );
+  Future<void> register() async {
+    final email = emailController.text.trim();
+    final password = passwordController.text.trim();
+
+    // Clear previous errors
+    emailError.value = '';
+    passwordError.value = '';
+
+    // Validate inputs first
+    final isEmailValid = _validateEmail(email);
+    final isPasswordValid = _validatePassword(password);
+
+    if (!isEmailValid || !isPasswordValid) {
+      // Show error snackbar for validation failures
+      Get.snackbar(
+        'Validation Error',
+        'Please fix the errors above',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
+      return;
+    }
+
+    // Show loading
+    isLoading.value = true;
+
+    try {
+      // Call Firebase Auth
+      final userCredential = await _authService.createUserWithEmailAndPassword(
+        email,
+        password,
+      );
+
+      // Save session to Hive
+      await SessionService().saveLoginSession(
+        userId: userCredential.user!.uid,
+        email: userCredential.user!.email!,
+      );
+
+      // Hide loading
+      isLoading.value = false;
+
+      // Navigate to home
+      Get.offAllNamed('/home');
+    } catch (error) {
+      // Hide loading
+      isLoading.value = false;
+
+      // Show error snackbar
+      Get.snackbar(
+        'Registration Failed',
+        error.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 4),
+      );
+    }
+  }
+
+  // Logout method
+  Future<void> logout() async {
+    try {
+      // Sign out from Firebase
+      await _authService.signOut();
+
+      // Clear session from Hive
+      await SessionService().clearLoginSession();
+
+      // Navigate to login
+      Get.offAllNamed('/login');
+    } catch (error) {
+      Get.snackbar(
+        'Logout Failed',
+        error.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: const Duration(seconds: 3),
+      );
+    }
   }
 }
