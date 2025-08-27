@@ -53,7 +53,7 @@ class HomePage extends GetView<HomeController> {
           IconButton(
             onPressed: () => Get.toNamed('/profile'),
             icon: const Icon(Icons.person),
-            tooltip: 'Mi Perfil',
+            tooltip: 'My Profile',
           ),
         ],
       ),
@@ -103,7 +103,7 @@ class HomePage extends GetView<HomeController> {
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          'Error al cargar ejercicios',
+                          'Error loading exercises',
                           style: theme.textTheme.headlineSmall,
                           textAlign: TextAlign.center,
                         ),
@@ -116,7 +116,7 @@ class HomePage extends GetView<HomeController> {
                         const SizedBox(height: 16),
                         ElevatedButton(
                           onPressed: controller.refreshData,
-                          child: const Text('Reintentar'),
+                          child: const Text('Retry'),
                         ),
                       ],
                     ),
@@ -125,7 +125,7 @@ class HomePage extends GetView<HomeController> {
 
                 if (!controller.hasExercises) {
                   return const Center(
-                    child: Text('No hay ejercicios disponibles'),
+                    child: Text('No exercises available'),
                   );
                 }
 
@@ -150,7 +150,7 @@ class HomePage extends GetView<HomeController> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                'Mostrando ${controller.filteredExercisesCount} de ${controller.totalExercisesCount} ejercicios',
+                                'Showing ${controller.filteredExercisesCount} of ${controller.totalExercisesCount} exercises',
                                 style: theme.textTheme.bodyMedium?.copyWith(
                                   color: theme.colorScheme.onPrimaryContainer,
                                   fontWeight: FontWeight.w500,

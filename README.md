@@ -80,7 +80,7 @@
 
 ### **Prerrequisitos**
 - **Flutter SDK 3.32.8** o superior
-- **Dart SDK 3.32.8** o superior
+- **Dart SDK 3.8.1** o superior
 - Android Studio / VS Code
 - Dispositivo Android/iOS o emulador
 

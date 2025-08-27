@@ -26,7 +26,9 @@ class ConnectivityBanner extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: (isOnline ? Colors.green : Colors.orange).withValues(alpha: 0.3),
+            color: (isOnline ? Colors.green : Colors.orange).withValues(
+              alpha: 0.3,
+            ),
             blurRadius: 8,
             offset: const Offset(0, 4),
           ),
@@ -53,7 +55,7 @@ class ConnectivityBanner extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        isOnline ? '¡Conexión Restaurada!' : 'Sin Conexión',
+                        isOnline ? 'Connection Restored!' : 'No Connection',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -62,8 +64,8 @@ class ConnectivityBanner extends StatelessWidget {
                       ),
                       Text(
                         isOnline
-                            ? 'Internet disponible nuevamente'
-                            : 'No hay conexión a internet',
+                            ? 'Internet available again'
+                            : 'No internet connection',
                         style: TextStyle(
                           color: Colors.white.withValues(alpha: 0.9),
                           fontSize: 14,
@@ -80,7 +82,7 @@ class ConnectivityBanner extends StatelessWidget {
                       color: Colors.white,
                       size: 20,
                     ),
-                    tooltip: 'Cerrar',
+                    tooltip: 'Close',
                   ),
               ],
             ),

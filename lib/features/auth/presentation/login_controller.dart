@@ -195,7 +195,7 @@ class LoginController extends GetxController {
 
       // Show error snackbar
       Get.snackbar(
-        'Inicio de Sesión Fallido',
+        'Login Failed',
         error.toString(),
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
