@@ -1,0 +1,23 @@
+import 'package:get/get.dart';
+import '../../features/splash/bindings/splash_binding.dart';
+import '../../features/splash/presentation/splash_page.dart';
+import '../../features/auth/bindings/auth_binding.dart';
+import '../../features/auth/presentation/login_page.dart';
+import '../../features/home/presentation/home_page.dart';
+import 'app_routes.dart';
+
+class AppPages {
+  static final routes = [
+    GetPage(
+      name: AppRoutes.splash,
+      page: () => const SplashPage(),
+      binding: SplashBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.login,
+      page: () => const LoginPage(),
+      binding: AuthBinding(),
+    ),
+    GetPage(name: AppRoutes.home, page: () => const HomePage()),
+  ];
+}
