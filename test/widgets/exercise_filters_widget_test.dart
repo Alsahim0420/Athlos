@@ -108,17 +108,11 @@ void main() {
       testWidgets('should handle filter selection', (
         WidgetTester tester,
       ) async {
-        bool filterChanged = false;
-        ExerciseFilters? selectedFilters;
-
         final testWidget = MaterialApp(
           home: Scaffold(
             body: ExerciseFiltersWidget(
               currentFilters: mockFilters,
-              onFiltersChanged: (filters) {
-                filterChanged = true;
-                selectedFilters = filters;
-              },
+              onFiltersChanged: (filters) {},
               availableCategories: mockCategories,
               availableTargetMuscles: mockTargetMuscles,
               availableEquipment: mockEquipment,
@@ -141,15 +135,11 @@ void main() {
       });
 
       testWidgets('should handle clear filters', (WidgetTester tester) async {
-        bool filterChanged = false;
-
         final testWidget = MaterialApp(
           home: Scaffold(
             body: ExerciseFiltersWidget(
               currentFilters: ExerciseFiltersModel(category: 'strength'),
-              onFiltersChanged: (filters) {
-                filterChanged = true;
-              },
+              onFiltersChanged: (filters) {},
               availableCategories: mockCategories,
               availableTargetMuscles: mockTargetMuscles,
               availableEquipment: mockEquipment,

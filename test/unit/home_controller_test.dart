@@ -14,17 +14,15 @@ import 'home_controller_test.mocks.dart';
 @GenerateMocks([ExerciseRepository, Connectivity])
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized(); // 🔧 INICIALIZAR BINDING
-  
+
   group('HomeController Tests', () {
     late HomeController controller;
     late MockExerciseRepository mockRepository;
-    late MockConnectivity mockConnectivity;
 
     setUp(() {
       mockRepository = MockExerciseRepository();
-      mockConnectivity = MockConnectivity();
       controller = HomeController(exerciseRepository: mockRepository);
-      
+
       // 🔧 CONFIGURAR MOCKS PARA EJERCICIOS DE PRUEBA
       final testExercises = [
         ExerciseModel(
@@ -54,11 +52,15 @@ void main() {
           category: 'strength',
         ),
       ];
-      
+
       when(mockRepository.hasCachedData).thenReturn(true);
       when(mockRepository.getCachedExercises()).thenReturn(testExercises);
-      when(mockRepository.fetchExercises()).thenAnswer((_) async => testExercises);
-      when(mockRepository.fetchExercises(forceRefresh: true)).thenAnswer((_) async => testExercises);
+      when(
+        mockRepository.fetchExercises(),
+      ).thenAnswer((_) async => testExercises);
+      when(
+        mockRepository.fetchExercises(forceRefresh: true),
+      ).thenAnswer((_) async => testExercises);
     });
 
     tearDown(() {

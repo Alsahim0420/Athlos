@@ -8,22 +8,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:ATHLOS/main.dart';
-
 void main() {
   testWidgets('ATHLOS app smoke test', (WidgetTester tester) async {
     // 🔧 INICIALIZAR BINDING
     TestWidgetsFlutterBinding.ensureInitialized();
-    
+
     // Build a simple test widget instead of the full app
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
           body: Column(
-            children: [
-              Text('ATHLOS Test'),
-              Icon(Icons.fitness_center),
-            ],
+            children: [Text('ATHLOS Test'), Icon(Icons.fitness_center)],
           ),
         ),
       ),

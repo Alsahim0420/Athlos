@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ATHLOS/features/home/presentation/widgets/exercises_skeleton.dart';
-import 'package:ATHLOS/features/profile/presentation/widgets/profile_skeleton.dart';
 
 void main() {
   group('Skeleton Widgets Tests', () {
@@ -101,7 +100,9 @@ void main() {
           MaterialApp(
             theme: ThemeData.light(),
             home: const Scaffold(
-              body: Column(children: [Text('Test 1'), Text('Test 2'), Text('Test 3')]),
+              body: Column(
+                children: [Text('Test 1'), Text('Test 2'), Text('Test 3')],
+              ),
             ),
           ),
         );
