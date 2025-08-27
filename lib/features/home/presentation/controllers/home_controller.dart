@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import '../../domain/entities/exercise_entity.dart';
 import '../../domain/repositories/exercise_repository.dart';
+import '../../domain/entities/exercise_filters.dart';
+import '../../data/models/exercise_filters_model.dart';
 
 class HomeController extends GetxController {
   final ExerciseRepository _exerciseRepository;
@@ -15,6 +17,15 @@ class HomeController extends GetxController {
   final RxBool isLoading = false.obs;
   final RxString error = ''.obs;
   final RxList<ExerciseEntity> exercises = <ExerciseEntity>[].obs;
+  final RxList<ExerciseEntity> filteredExercises = <ExerciseEntity>[].obs;
+
+  // Filters management
+  final Rx<ExerciseFilters> currentFilters = ExerciseFiltersModel.empty().obs;
+  final RxList<String> availableCategories = <String>[].obs;
+  final RxList<String> availableTargetMuscles = <String>[].obs;
+  final RxList<String> availableEquipment = <String>[].obs;
+  final RxList<String> availableDifficulties = <String>[].obs;
+  final RxList<String> availableBodyParts = <String>[].obs;
 
   // Connectivity management
   final RxBool isOnline = true.obs;
@@ -55,9 +66,13 @@ class HomeController extends GetxController {
         debugPrint('🏠 [HOME_CONTROLLER] Loading cached exercises first...');
         final cachedExercises = _exerciseRepository.getCachedExercises();
         exercises.assignAll(cachedExercises);
+        filteredExercises.assignAll(cachedExercises);
         debugPrint(
           '🏠 [HOME_CONTROLLER] Loaded ${cachedExercises.length} exercises from cache',
         );
+
+        // Extract available filter options from cached data
+        _extractFilterOptions(cachedExercises);
 
         // Show offline mode message only if we're actually offline
         if (!isOnline.value) {
@@ -75,7 +90,11 @@ class HomeController extends GetxController {
 
         // Update the list with fresh data
         exercises.assignAll(exerciseList);
+        filteredExercises.assignAll(exerciseList);
         debugPrint('🏠 [HOME_CONTROLLER] Exercises updated from network');
+
+        // Extract available filter options
+        _extractFilterOptions(exerciseList);
       } catch (networkError) {
         debugPrint('🏠 [HOME_CONTROLLER] Network failed: $networkError');
 
@@ -124,9 +143,13 @@ class HomeController extends GetxController {
       );
 
       exercises.assignAll(exerciseList);
+      filteredExercises.assignAll(exerciseList);
       debugPrint(
         '🏠 [HOME_CONTROLLER] refreshData() - Updated with fresh data',
       );
+
+      // Extract available filter options
+      _extractFilterOptions(exerciseList);
     } catch (e) {
       debugPrint('🏠 [HOME_CONTROLLER] refreshData() - Error: $e');
 
@@ -285,4 +308,120 @@ class HomeController extends GetxController {
       );
     });
   }
+
+  /// Extract available filter options from exercises
+  void _extractFilterOptions(List<ExerciseEntity> exerciseList) {
+    debugPrint(
+      '🔍 [FILTERS] Extracting filter options from ${exerciseList.length} exercises',
+    );
+
+    final categories = <String>{};
+    final targetMuscles = <String>{};
+    final equipment = <String>{};
+    final difficulties = <String>{};
+    final bodyParts = <String>{};
+
+    for (final exercise in exerciseList) {
+      if (exercise.category.isNotEmpty) categories.add(exercise.category);
+      if (exercise.target.isNotEmpty) targetMuscles.add(exercise.target);
+      if (exercise.equipment.isNotEmpty) equipment.add(exercise.equipment);
+      if (exercise.difficulty.isNotEmpty) difficulties.add(exercise.difficulty);
+      if (exercise.bodyPart.isNotEmpty) bodyParts.add(exercise.bodyPart);
+    }
+
+    availableCategories.assignAll(categories.toList()..sort());
+    availableTargetMuscles.assignAll(targetMuscles.toList()..sort());
+    availableEquipment.assignAll(equipment.toList()..sort());
+    availableDifficulties.assignAll(difficulties.toList()..sort());
+    availableBodyParts.assignAll(bodyParts.toList()..sort());
+
+    debugPrint('🔍 [FILTERS] Available options:');
+    debugPrint('  - Categories: ${availableCategories.length}');
+    debugPrint('  - Target Muscles: ${availableTargetMuscles.length}');
+    debugPrint('  - Equipment: ${availableEquipment.length}');
+    debugPrint('  - Difficulties: ${availableDifficulties.length}');
+    debugPrint('  - Body Parts: ${availableBodyParts.length}');
+  }
+
+  /// Apply filters to exercises
+  void applyFilters(ExerciseFilters filters) {
+    debugPrint('🔍 [FILTERS] Applying filters: ${filters.toString()}');
+    debugPrint('🔍 [FILTERS] Total exercises available: ${exercises.length}');
+
+    currentFilters.value = filters;
+
+    if (!filters.hasActiveFilters) {
+      // No filters, show all exercises
+      debugPrint('🔍 [FILTERS] No active filters, showing all exercises');
+      filteredExercises.assignAll(exercises);
+      return;
+    }
+
+    final filtered = exercises.where((exercise) {
+      // Category filter
+      if (filters.category != null && exercise.category != filters.category) {
+        debugPrint(
+          '🔍 [FILTERS] Exercise ${exercise.name} filtered out by category: ${exercise.category} != ${filters.category}',
+        );
+        return false;
+      }
+
+      // Target muscle filter
+      if (filters.targetMuscle != null &&
+          exercise.target != filters.targetMuscle) {
+        debugPrint(
+          '🔍 [FILTERS] Exercise ${exercise.name} filtered out by target: ${exercise.target} != ${filters.targetMuscle}',
+        );
+        return false;
+      }
+
+      // Equipment filter
+      if (filters.equipment != null &&
+          exercise.equipment != filters.equipment) {
+        debugPrint(
+          '🔍 [FILTERS] Exercise ${exercise.name} filtered out by equipment: ${exercise.equipment} != ${filters.equipment}',
+        );
+        return false;
+      }
+
+      // Difficulty filter
+      if (filters.difficulty != null &&
+          exercise.difficulty != filters.difficulty) {
+        debugPrint(
+          '🔍 [FILTERS] Exercise ${exercise.name} filtered out by difficulty: ${exercise.difficulty} != ${filters.difficulty}',
+        );
+        return false;
+      }
+
+      // Body part filter
+      if (filters.bodyPart != null && exercise.bodyPart != filters.bodyPart) {
+        debugPrint(
+          '🔍 [FILTERS] Exercise ${exercise.name} filtered out by body part: ${exercise.bodyPart} != ${filters.bodyPart}',
+        );
+        return false;
+      }
+
+      debugPrint('🔍 [FILTERS] Exercise ${exercise.name} passed all filters');
+      return true;
+    }).toList();
+
+    filteredExercises.assignAll(filtered);
+    debugPrint('🔍 [FILTERS] Filtered to ${filtered.length} exercises');
+    debugPrint(
+      '🔍 [FILTERS] Filtered exercises: ${filtered.map((e) => e.name).toList()}',
+    );
+  }
+
+  /// Clear all filters
+  void clearFilters() {
+    debugPrint('🔍 [FILTERS] Clearing all filters');
+    currentFilters.value = ExerciseFiltersModel.empty();
+    filteredExercises.assignAll(exercises);
+  }
+
+  /// Get current filtered exercises count
+  int get filteredExercisesCount => filteredExercises.length;
+
+  /// Get total exercises count
+  int get totalExercisesCount => exercises.length;
 }

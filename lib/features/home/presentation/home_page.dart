@@ -5,6 +5,7 @@ import 'package:hive/hive.dart';
 import 'controllers/home_controller.dart';
 import 'widgets/exercises_skeleton.dart';
 import 'widgets/connectivity_banner.dart';
+import 'widgets/exercise_filters_widget.dart';
 import 'pages/exercise_detail_page.dart';
 import '../domain/entities/exercise_entity.dart';
 import '../domain/repositories/exercise_repository.dart';
@@ -68,6 +69,21 @@ class HomePage extends GetView<HomeController> {
                 onDismiss: controller.dismissConnectivityBanner,
               ),
             ),
+
+            // Exercise filters
+            Obx(
+              () => ExerciseFiltersWidget(
+                currentFilters: controller.currentFilters.value,
+                onFiltersChanged: controller.applyFilters,
+                availableCategories: controller.availableCategories,
+                availableTargetMuscles: controller.availableTargetMuscles,
+                availableEquipment: controller.availableEquipment,
+                availableDifficulties: controller.availableDifficulties,
+                availableBodyParts: controller.availableBodyParts,
+                totalExercises: controller.totalExercisesCount,
+                filteredExercises: controller.filteredExercisesCount,
+              ),
+            ),
             // Exercise list
             Expanded(
               child: Obx(() {
@@ -113,11 +129,58 @@ class HomePage extends GetView<HomeController> {
                   );
                 }
 
+                // Show filtered results info
+                if (controller.currentFilters.value.hasActiveFilters) {
+                  return Column(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(16),
+                        margin: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.filter_list,
+                              color: theme.colorScheme.onPrimaryContainer,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                'Mostrando ${controller.filteredExercisesCount} de ${controller.totalExercisesCount} ejercicios',
+                                style: theme.textTheme.bodyMedium?.copyWith(
+                                  color: theme.colorScheme.onPrimaryContainer,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(16),
+                          itemCount: controller.filteredExercises.length,
+                          itemBuilder: (context, index) {
+                            final exercise =
+                                controller.filteredExercises[index];
+                            return _buildExerciseTile(exercise, theme);
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                }
+
                 return ListView.builder(
                   padding: const EdgeInsets.all(16),
-                  itemCount: controller.exercises.length,
+                  itemCount: controller.filteredExercises.length,
                   itemBuilder: (context, index) {
-                    final exercise = controller.exercises[index];
+                    final exercise = controller.filteredExercises[index];
                     return _buildExerciseTile(exercise, theme);
                   },
                 );
