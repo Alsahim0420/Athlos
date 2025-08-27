@@ -31,6 +31,26 @@ class ExerciseModel extends ExerciseEntity {
   @HiveField(5)
   final String gifUrl;
 
+  @override
+  @HiveField(6)
+  final List<String> secondaryMuscles;
+
+  @override
+  @HiveField(7)
+  final List<String> instructions;
+
+  @override
+  @HiveField(8)
+  final String description;
+
+  @override
+  @HiveField(9)
+  final String difficulty;
+
+  @override
+  @HiveField(10)
+  final String category;
+
   const ExerciseModel({
     required this.id,
     required this.name,
@@ -38,6 +58,11 @@ class ExerciseModel extends ExerciseEntity {
     required this.target,
     required this.equipment,
     required this.gifUrl,
+    required this.secondaryMuscles,
+    required this.instructions,
+    required this.description,
+    required this.difficulty,
+    required this.category,
   }) : super(
          id: id,
          name: name,
@@ -45,6 +70,11 @@ class ExerciseModel extends ExerciseEntity {
          target: target,
          equipment: equipment,
          gifUrl: gifUrl,
+         secondaryMuscles: secondaryMuscles,
+         instructions: instructions,
+         description: description,
+         difficulty: difficulty,
+         category: category,
        );
 
   factory ExerciseModel.fromJson(Map<String, dynamic> json) {
@@ -55,6 +85,11 @@ class ExerciseModel extends ExerciseEntity {
       target: json['target']?.toString() ?? '',
       equipment: json['equipment']?.toString() ?? '',
       gifUrl: json['gifUrl']?.toString() ?? '',
+      secondaryMuscles: List<String>.from(json['secondaryMuscles'] ?? []),
+      instructions: List<String>.from(json['instructions'] ?? []),
+      description: json['description']?.toString() ?? '',
+      difficulty: json['difficulty']?.toString() ?? '',
+      category: json['category']?.toString() ?? '',
     );
   }
 
@@ -66,6 +101,11 @@ class ExerciseModel extends ExerciseEntity {
       'target': target,
       'equipment': equipment,
       'gifUrl': gifUrl,
+      'secondaryMuscles': secondaryMuscles,
+      'instructions': instructions,
+      'description': description,
+      'difficulty': difficulty,
+      'category': category,
     };
   }
 
@@ -76,6 +116,11 @@ class ExerciseModel extends ExerciseEntity {
     String? target,
     String? equipment,
     String? gifUrl,
+    List<String>? secondaryMuscles,
+    List<String>? instructions,
+    String? description,
+    String? difficulty,
+    String? category,
   }) {
     return ExerciseModel(
       id: id ?? this.id,
@@ -84,6 +129,11 @@ class ExerciseModel extends ExerciseEntity {
       target: target ?? this.target,
       equipment: equipment ?? this.equipment,
       gifUrl: gifUrl ?? this.gifUrl,
+      secondaryMuscles: secondaryMuscles ?? this.secondaryMuscles,
+      instructions: instructions ?? this.instructions,
+      description: description ?? this.description,
+      difficulty: difficulty ?? this.difficulty,
+      category: category ?? this.category,
     );
   }
 

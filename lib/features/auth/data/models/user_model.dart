@@ -70,7 +70,7 @@ class UserModel {
   // Create from Map (for form data and Hive storage)
   factory UserModel.fromMap(Map<String, dynamic> map) {
     // Helper function to convert Timestamp or DateTime to DateTime
-    DateTime _parseDate(dynamic dateValue) {
+    DateTime parseDate(dynamic dateValue) {
       if (dateValue is Timestamp) {
         return dateValue.toDate();
       } else if (dateValue is DateTime) {
@@ -90,9 +90,9 @@ class UserModel {
       weight: (map['weight'] ?? 0).toDouble(),
       height: (map['height'] ?? 0).toDouble(),
       gender: map['gender'] ?? '',
-      birthDate: _parseDate(map['birthDate']),
-      createdAt: _parseDate(map['createdAt']),
-      updatedAt: _parseDate(map['updatedAt']),
+      birthDate: parseDate(map['birthDate']),
+      createdAt: parseDate(map['createdAt']),
+      updatedAt: parseDate(map['updatedAt']),
     );
   }
 

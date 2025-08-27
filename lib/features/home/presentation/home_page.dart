@@ -3,6 +3,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:hive/hive.dart';
 import 'controllers/home_controller.dart';
+import 'widgets/exercises_skeleton.dart';
+import 'widgets/connectivity_banner.dart';
+import 'pages/exercise_detail_page.dart';
 import '../domain/entities/exercise_entity.dart';
 import '../domain/repositories/exercise_repository.dart';
 import '../data/repositories/exercise_repository_impl.dart';
@@ -41,10 +44,11 @@ class HomePage extends GetView<HomeController> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ATHLOS'),
+        title: _buildAthlosTitle(theme),
         backgroundColor: theme.appBarTheme.backgroundColor,
         foregroundColor: theme.appBarTheme.foregroundColor,
         actions: [
+          // Profile button
           IconButton(
             onPressed: () => Get.toNamed('/profile'),
             icon: const Icon(Icons.person),
@@ -56,11 +60,19 @@ class HomePage extends GetView<HomeController> {
         onRefresh: controller.refreshData,
         child: Column(
           children: [
+            // Connectivity banner
+            Obx(
+              () => ConnectivityBanner(
+                isOnline: controller.isConnectivityBannerOnline.value,
+                isVisible: controller.isConnectivityBannerVisible.value,
+                onDismiss: controller.dismissConnectivityBanner,
+              ),
+            ),
             // Exercise list
             Expanded(
               child: Obx(() {
                 if (controller.isLoading.value) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const ExercisesSkeleton(itemCount: 8);
                 }
 
                 if (controller.hasError && !controller.hasExercises) {
@@ -122,43 +134,17 @@ class HomePage extends GetView<HomeController> {
       margin: const EdgeInsets.only(bottom: 12),
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
-        leading: ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: SizedBox(
-            width: 60,
-            height: 60,
-            child: Image.network(
-              exercise.gifUrl,
-              fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) {
-                return Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Icon(
-                    Icons.fitness_center,
-                    color: theme.colorScheme.onSurface,
-                  ),
-                );
-              },
-              loadingBuilder: (context, child, loadingProgress) {
-                if (loadingProgress == null) return child;
-                return Container(
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.surfaceContainerHighest,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: const Center(
-                    child: CircularProgressIndicator(strokeWidth: 2),
-                  ),
-                );
-              },
-            ),
+        leading: Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            color: theme.colorScheme.surfaceContainerHighest,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            Icons.fitness_center,
+            color: theme.colorScheme.onSurface,
+            size: 28,
           ),
         ),
         title: Text(
@@ -174,15 +160,36 @@ class HomePage extends GetView<HomeController> {
           ),
         ),
         onTap: () {
-          // TODO: Navigate to exercise detail page
-          Get.snackbar(
-            'Ejercicio',
-            'Seleccionaste: ${exercise.name}',
-            snackPosition: SnackPosition.BOTTOM,
-            duration: const Duration(seconds: 2),
-          );
+          Get.to(() => ExerciseDetailPage(exercise: exercise));
         },
       ),
+    );
+  }
+
+  Widget _buildAthlosTitle(ThemeData theme) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // Lightning bolt icon (yellow)
+        Container(
+          width: 24,
+          height: 24,
+          decoration: BoxDecoration(
+            color: Colors.amber.shade600,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: const Icon(Icons.flash_on, color: Colors.white, size: 16),
+        ),
+        const SizedBox(width: 8),
+        // ATHLOS text
+        Text(
+          'ATHLOS',
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+            letterSpacing: 1.2,
+          ),
+        ),
+      ],
     );
   }
 }

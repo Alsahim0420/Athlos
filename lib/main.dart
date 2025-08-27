@@ -7,6 +7,7 @@ import 'core/routes/app_routes.dart';
 import 'core/config/app_theme.dart';
 import 'core/services/http_service.dart';
 import 'core/services/remote_config_service.dart';
+import 'core/services/theme_service.dart';
 import 'features/auth/data/services/session_service.dart';
 import 'core/controllers/theme_controller.dart';
 import 'package:hive/hive.dart';
@@ -83,6 +84,23 @@ void main() async {
     debugPrint('🎨 [THEME] Theme Controller initialized successfully!');
   } catch (e) {
     debugPrint('❌ [THEME] Failed to initialize Theme Controller: $e');
+    rethrow;
+  }
+
+  try {
+    debugPrint('🎨 [THEME] Initializing Theme Service...');
+    // Initialize Theme Service for persistence
+    final themeService = ThemeService();
+    debugPrint('🎨 [THEME] ThemeService instance created');
+    Get.put(themeService);
+    debugPrint('🎨 [THEME] Theme Service put in GetX successfully!');
+
+    // Force load and apply theme before app starts
+    debugPrint('🎨 [THEME] Loading saved theme...');
+    await themeService.loadTheme();
+    debugPrint('🎨 [THEME] Theme loaded and applied before app start');
+  } catch (e) {
+    debugPrint('❌ [THEME] Failed to initialize Theme Service: $e');
     rethrow;
   }
 

@@ -21,7 +21,7 @@ class ProfileSkeleton extends StatelessWidget {
                       width: 24,
                       height: 24,
                       decoration: BoxDecoration(
-                        color: Colors.grey[700],
+                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
@@ -31,7 +31,7 @@ class ProfileSkeleton extends StatelessWidget {
                       child: Container(
                         height: 24,
                         decoration: BoxDecoration(
-                          color: Colors.grey[700],
+                          color: Theme.of(context).colorScheme.surfaceContainerHighest,
                           borderRadius: BorderRadius.circular(12),
                         ),
                       ),
@@ -42,7 +42,7 @@ class ProfileSkeleton extends StatelessWidget {
                       width: 24,
                       height: 24,
                       decoration: BoxDecoration(
-                        color: Colors.grey[700],
+                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
                         borderRadius: BorderRadius.circular(12),
                       ),
                     ),
@@ -58,7 +58,7 @@ class ProfileSkeleton extends StatelessWidget {
                   width: 120,
                   height: 120,
                   decoration: BoxDecoration(
-                    color: Colors.grey[700],
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     shape: BoxShape.circle,
                   ),
                 ),
@@ -72,7 +72,7 @@ class ProfileSkeleton extends StatelessWidget {
                   width: 200,
                   height: 28,
                   decoration: BoxDecoration(
-                    color: Colors.grey[700],
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(14),
                   ),
                 ),
@@ -86,7 +86,7 @@ class ProfileSkeleton extends StatelessWidget {
                   width: 250,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.grey[700],
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
@@ -121,7 +121,7 @@ class ProfileSkeleton extends StatelessWidget {
                   width: double.infinity,
                   height: 56,
                   decoration: BoxDecoration(
-                    color: Colors.grey[700],
+                    color: Theme.of(context).colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(28),
                   ),
                 ),
@@ -136,65 +136,69 @@ class ProfileSkeleton extends StatelessWidget {
   }
 
   Widget _buildStatSkeleton() {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.grey[700],
-            borderRadius: BorderRadius.circular(30),
+    return Builder(
+      builder: (context) => Column(
+        children: [
+          Container(
+            width: 60,
+            height: 60,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(30),
+            ),
           ),
-        ),
-        const SizedBox(height: 8),
-        Container(
-          width: 40,
-          height: 16,
-          decoration: BoxDecoration(
-            color: Colors.grey[700],
-            borderRadius: BorderRadius.circular(8),
+          const SizedBox(height: 8),
+          Container(
+            width: 40,
+            height: 16,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
   Widget _buildDetailSkeleton() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 20),
-      child: Row(
-        children: [
-          // Icon skeleton
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.grey[700],
-              borderRadius: BorderRadius.circular(12),
+    return Builder(
+      builder: (context) => Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Row(
+          children: [
+            // Icon skeleton
+            Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
-          ),
-          const SizedBox(width: 16),
-          // Label skeleton
-          Expanded(
-            child: Container(
+            const SizedBox(width: 16),
+            // Label skeleton
+            Expanded(
+              child: Container(
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+            // Value skeleton
+            Container(
+              width: 100,
               height: 20,
               decoration: BoxDecoration(
-                color: Colors.grey[700],
+                color: Theme.of(context).colorScheme.surfaceContainerHighest,
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
-          ),
-          const SizedBox(width: 16),
-          // Value skeleton
-          Container(
-            width: 100,
-            height: 20,
-            decoration: BoxDecoration(
-              color: Colors.grey[700],
-              borderRadius: BorderRadius.circular(10),
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

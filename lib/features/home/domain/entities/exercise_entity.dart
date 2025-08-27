@@ -5,6 +5,11 @@ abstract class ExerciseEntity {
   final String target;
   final String equipment;
   final String gifUrl;
+  final List<String> secondaryMuscles;
+  final List<String> instructions;
+  final String description;
+  final String difficulty;
+  final String category;
 
   const ExerciseEntity({
     required this.id,
@@ -13,6 +18,11 @@ abstract class ExerciseEntity {
     required this.target,
     required this.equipment,
     required this.gifUrl,
+    required this.secondaryMuscles,
+    required this.instructions,
+    required this.description,
+    required this.difficulty,
+    required this.category,
   });
 
   @override
@@ -26,6 +36,6 @@ abstract class ExerciseEntity {
 
   @override
   String toString() {
-    return 'ExerciseEntity(id: $id, name: $name, bodyPart: $bodyPart, target: $target, equipment: $equipment)';
+    return 'ExerciseEntity(id: $id, name: $name, bodyPart: $bodyPart, target: $target, equipment: $equipment, secondaryMuscles: $secondaryMuscles, instructions: $instructions, description: $description, difficulty: $difficulty, category: $category)';
   }
 }

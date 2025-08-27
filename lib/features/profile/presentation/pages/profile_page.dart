@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../controllers/profile_controller.dart';
 import '../widgets/profile_skeleton.dart';
 import '../../domain/entities/user_profile_entity.dart';
-import '../../../../core/controllers/theme_controller.dart';
+import '../../../../core/services/theme_service.dart';
 
 class ProfilePage extends GetView<ProfileController> {
   const ProfilePage({super.key});
@@ -18,10 +18,14 @@ class ProfilePage extends GetView<ProfileController> {
         backgroundColor: theme.appBarTheme.backgroundColor,
         foregroundColor: theme.appBarTheme.foregroundColor,
         actions: [
-          IconButton(
-            onPressed: () => _showThemeDialog(context),
-            icon: const Icon(Icons.brightness_6),
-            tooltip: 'Cambiar tema',
+          // Theme button
+          Obx(
+            () => IconButton(
+              onPressed: () => _showThemeDialog(context),
+              icon: Icon(Get.find<ThemeService>().getCurrentThemeIcon()),
+              tooltip:
+                  'Cambiar tema (${Get.find<ThemeService>().getCurrentThemeName()})',
+            ),
           ),
         ],
       ),
@@ -253,7 +257,7 @@ class ProfilePage extends GetView<ProfileController> {
   }
 
   void _showThemeDialog(BuildContext context) {
-    final themeController = Get.find<ThemeController>();
+    final themeService = Get.find<ThemeService>();
 
     showModalBottomSheet(
       context: context,
@@ -284,12 +288,12 @@ class ProfilePage extends GetView<ProfileController> {
             ...ThemeMode.values.map(
               (themeMode) => ListTile(
                 leading: Icon(
-                  themeController.getThemeIcon(themeMode),
+                  _getThemeIcon(themeMode),
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                title: Text(themeController.getThemeName(themeMode)),
+                title: Text(_getThemeName(themeMode)),
                 trailing: Obx(
-                  () => themeController.currentThemeMode.value == themeMode
+                  () => themeService.currentTheme == themeMode
                       ? Icon(
                           Icons.check,
                           color: Theme.of(context).colorScheme.primary,
@@ -297,7 +301,7 @@ class ProfilePage extends GetView<ProfileController> {
                       : const SizedBox.shrink(),
                 ),
                 onTap: () {
-                  themeController.changeTheme(themeMode);
+                  themeService.changeTheme(themeMode);
                   Navigator.pop(context);
                 },
               ),
@@ -307,5 +311,27 @@ class ProfilePage extends GetView<ProfileController> {
         ),
       ),
     );
+  }
+
+  IconData _getThemeIcon(ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.light:
+        return Icons.light_mode;
+      case ThemeMode.dark:
+        return Icons.dark_mode;
+      case ThemeMode.system:
+        return Icons.brightness_auto;
+    }
+  }
+
+  String _getThemeName(ThemeMode themeMode) {
+    switch (themeMode) {
+      case ThemeMode.light:
+        return 'Claro';
+      case ThemeMode.dark:
+        return 'Oscuro';
+      case ThemeMode.system:
+        return 'Sistema';
+    }
   }
 }
