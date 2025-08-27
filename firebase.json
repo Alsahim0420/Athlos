@@ -1,0 +1,48 @@
+{
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
+  },
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "athlos-84089",
+          "appId": "1:696840604322:android:ec26e5dd4433a427d565fb",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "athlos-84089",
+          "appId": "1:696840604322:ios:78b3c355c3ac5af9d565fb",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "athlos-84089",
+          "configurations": {
+            "android": "1:696840604322:android:ec26e5dd4433a427d565fb",
+            "ios": "1:696840604322:ios:78b3c355c3ac5af9d565fb",
+            "macos": "1:696840604322:ios:78b3c355c3ac5af9d565fb",
+            "web": "1:696840604322:web:65d686d7a0d91619d565fb",
+            "windows": "1:696840604322:web:5ae46f91271090e4d565fb"
+          }
+        }
+      },
+      "macos": {
+        "default": {
+          "projectId": "athlos-84089",
+          "appId": "1:696840604322:ios:78b3c355c3ac5af9d565fb",
+          "uploadDebugSymbols": false,
+          "fileOutput": "macos/Runner/GoogleService-Info.plist"
+        }
+      }
+    }
+  }
+}
